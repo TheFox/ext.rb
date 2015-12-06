@@ -7,6 +7,12 @@ Extended and useful helper classes for Ruby.
 The preferred method of installation is via RubyGems.org:  
 <https://rubygems.org/gems/thefox-ext>
 
+	gem install thefox-ext
+
+or via `Gemfile`:
+
+	gem 'thefox-ext', '~>1.0'
+
 ## Features
 
 - [String Manipulation](lib/thefox-ext/ext/string.rb)
