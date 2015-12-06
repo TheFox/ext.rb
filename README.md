@@ -2,6 +2,11 @@
 
 Extended and useful helper classes for Ruby.
 
+## Install
+
+The preferred method of installation is via RubyGems.org:  
+<https://rubygems.org/gems/thefox-ext>
+
 ## Features
 
 - [String Manipulation](lib/thefox-ext/ext/string.rb)
