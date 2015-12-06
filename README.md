@@ -13,6 +13,10 @@ or via `Gemfile`:
 
 	gem 'thefox-ext', '~>1.0'
 
+Use it in your sources:
+
+	require 'thefox-ext'
+
 ## Features
 
 - [String Manipulation](lib/thefox-ext/ext/string.rb)
