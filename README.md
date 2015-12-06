@@ -2,6 +2,12 @@
 
 Extended and useful helper classes for Ruby.
 
+## Features
+
+- [String Manipulation](lib/thefox-ext/ext/string.rb)
+	- Title Case
+	- UTF-8 Encoding
+
 ## License
 Copyright (C) 2015 Christian Mayer <http://fox21.at>
 
