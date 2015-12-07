@@ -1,0 +1,17 @@
+PATH
+  remote: .
+  specs:
+    thefox-ext (1.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  thefox-ext!
+
+BUNDLED WITH
+   1.10.2
