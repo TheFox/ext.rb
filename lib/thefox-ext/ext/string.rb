@@ -1,12 +1,5 @@
 
 class String
-	def titlecase
-		self
-			.split(/ /)
-			.map{ |word| word.capitalize }
-			.join(' ')
-	end
-	
 	def is_utf8?
 		begin
 			self.unpack('U*')
@@ -14,6 +7,13 @@ class String
 			return false
 		end
 		return true
+	end
+	
+	def titlecase
+		self
+			.split(/ /)
+			.map{ |word| word.capitalize }
+			.join(' ')
 	end
 	
 	def to_utf8
