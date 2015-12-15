@@ -22,6 +22,7 @@ Use it in your sources:
 - [String Manipulation](lib/thefox-ext/ext/string.rb)
 	- Title Case
 	- UTF-8 Encoding
+	- Intenger 32-bit Array
 
 ## License
 Copyright (C) 2015 Christian Mayer <http://fox21.at>
