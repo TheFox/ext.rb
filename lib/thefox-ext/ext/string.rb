@@ -1,5 +1,20 @@
 
 class String
+	def is_digit?
+		r = '0'..'9'
+		self.split('').keep_if{ |c| r.include?(c) }.count == self.length
+	end
+	
+	def is_lower?
+		r = 'a'..'z'
+		self.split('').keep_if{ |c| r.include?(c) }.count == self.length
+	end
+	
+	def is_upper?
+		r = 'A'..'Z'
+		self.split('').keep_if{ |c| r.include?(c) }.count == self.length
+	end
+	
 	def is_utf8?
 		begin
 			self.unpack('U*')
