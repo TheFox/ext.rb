@@ -31,6 +31,10 @@ class String
 			.join(' ')
 	end
 	
+	def to_hex
+		self.split('').map{ |c| sprintf '%02x', c.ord }.join
+	end
+	
 	def to_i32a
 		len = self.length
 		len_w = (len >> 2) + (len & 0x3).to_b.to_i
