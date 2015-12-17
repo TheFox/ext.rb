@@ -25,6 +25,11 @@ Use it in your sources:
 	- Intenger 32-bit Array
 - Console Support
 
+## Project Links
+
+- [Gem](https://rubygems.org/gems/thefox-ext)
+- [Travis CI Repository](https://travis-ci.org/TheFox/ext.rb)
+
 ## License
 Copyright (C) 2015 Christian Mayer <http://fox21.at>
 
