@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    thefox-ext (1.1.1)
+    thefox-ext (1.2.0.pre.dev.1)
 
 GEM
   remote: https://rubygems.org/
