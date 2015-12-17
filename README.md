@@ -23,6 +23,7 @@ Use it in your sources:
 	- Title Case
 	- UTF-8 Encoding
 	- Intenger 32-bit Array
+- Console Support
 
 ## License
 Copyright (C) 2015 Christian Mayer <http://fox21.at>
