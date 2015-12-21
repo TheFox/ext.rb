@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'bundler/setup'
 require 'minitest/autorun'
 require 'thefox-ext'
+
 
 class TestInteger < MiniTest::Test
 	def test_to_b

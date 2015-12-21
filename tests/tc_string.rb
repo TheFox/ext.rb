@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'bundler/setup'
 require 'minitest/autorun'
 require 'thefox-ext'
+
 
 class TestString < MiniTest::Test
 	def test_is_digit
