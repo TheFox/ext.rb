@@ -2,8 +2,6 @@
 
 require 'minitest/autorun'
 require 'thefox-ext'
-#require 'date'
-#require 'pp'
 
 
 class TestDate < MiniTest::Test

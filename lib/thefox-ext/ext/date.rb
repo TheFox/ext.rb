@@ -1,5 +1,5 @@
 
-#require 'date'
+require 'date'
 
 class Date
 	def today?
