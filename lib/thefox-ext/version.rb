@@ -1,7 +1,7 @@
 
 module TheFox
 	module Ext
-		VERSION = '1.2.1'
-		DATE = '2015-12-21'
+		VERSION = '1.3.0-dev.2'
+		DATE = '2016-02-07'
 	end
 end

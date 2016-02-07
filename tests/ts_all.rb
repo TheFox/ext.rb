@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require_relative 'tc_date'
 require_relative 'tc_false'
 require_relative 'tc_integer'
 require_relative 'tc_nil'
