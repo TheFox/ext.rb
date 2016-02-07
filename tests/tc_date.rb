@@ -13,5 +13,7 @@ class TestDate < MiniTest::Test
 		
 		# This test may fail on 01.01.2018 ;)
 		assert_equal(false, Date.new(2018, 1, 1).today?)
+		
+		assert_equal(true, Time.now.to_date.today?)
 	end
 end
