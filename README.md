@@ -25,6 +25,8 @@ Use it in your sources:
 	- Intenger 32-bit Array
 - Console Support
 - Date is `today?`
+- Hash
+	- Recursive Merge
 
 ## Project Links
 
