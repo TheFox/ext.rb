@@ -2,7 +2,6 @@
 
 require 'minitest/autorun'
 require 'thefox-ext'
-require 'pp'
 
 
 class TestHash < MiniTest::Test

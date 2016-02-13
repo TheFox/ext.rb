@@ -2,8 +2,6 @@
 class Hash
 	
 	def merge_recursive(h2, level = 0)
-		#lstr = "\t" * level
-		
 		has_subhashes = false
 		
 		# We want to modify only the clone.
@@ -11,14 +9,10 @@ class Hash
 		
 		# Iterate Hash 1
 		h1.each do |k, v|
-			#puts "#{lstr}#{k} = #{v}"
-			
 			if v.is_a?(Hash)
 				has_subhashes = true
 				
 				if h2.has_key?(k) && h2[k].is_a?(Hash)
-					#puts "#{lstr}sub"
-					
 					# Inception! Go one level deeper.
 					h1[k] = v.merge_recursive(h2[k], level + 1)
 				else
@@ -44,17 +38,13 @@ class Hash
 			end
 		end
 		
-		if has_subhashes
-			#puts "#{lstr}has_subhashes"
-		else
-			#puts "#{lstr}no has_subhashes"
-			
+		if !has_subhashes
 			# If there are no subhashes merge
 			# with existing merge function.
 			h1.merge!(h2)
 		end
 		
-		# Return h1 modified clone
+		# Return h1 modified clone.
 		return h1
 	end
 	
