@@ -15,11 +15,14 @@ class Hash
 			if v.is_a?(Hash)
 				has_subhashes = true
 				
-				if h2.has_key?(k) && h2[k].is_a?(Hash)
-					# Inception! Go one level deeper.
-					h1[k] = v.merge_recursive(h2[k], level + 1)
-				else
-					h1[k] = h2[k]
+				# If Hash 2 also has the same key.
+				if h2.has_key?(k)
+					if h2[k].is_a?(Hash)
+						# Inception! Go one level deeper.
+						h1[k] = v.merge_recursive(h2[k], level + 1)
+					else
+						h1[k] = h2[k]
+					end
 				end
 			else
 				# Value of Hash 1 is no Subhash.
