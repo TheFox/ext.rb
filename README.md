@@ -24,7 +24,9 @@ Use it in your sources:
 	- UTF-8 Encoding
 	- Intenger 32-bit Array
 - Console Support
-- Date is `today?`
+- Date
+	- `today?`
+	- Get week array for a specific date.
 - Hash
 	- Recursive Merge
 
