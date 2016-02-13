@@ -1,11 +1,14 @@
 
 class Hash
 	
-	def merge_recursive(h2, level = 0)
+	def merge_recursive(h2, level = 0, clone = true)
 		has_subhashes = false
 		
-		# We want to modify only the clone.
-		h1 = self.clone
+		h1 = self
+		if clone
+			# We want to modify only the clone.
+			h1 = self.clone
+		end
 		
 		# Iterate Hash 1
 		h1.each do |k, v|
@@ -46,6 +49,10 @@ class Hash
 		
 		# Return h1 modified clone.
 		return h1
+	end
+	
+	def merge_recursive!(h2)
+		self.merge_recursive(h2, 0, false)
 	end
 	
 end
