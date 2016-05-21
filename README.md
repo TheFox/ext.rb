@@ -1,6 +1,6 @@
 # Extended Ruby Classes
 
-Extended and useful helper classes for Ruby.
+This gem extents some of the basic Ruby classes by missing functionalities.
 
 ## Install
 
@@ -36,6 +36,7 @@ Use it in your sources:
 - [Travis CI Repository](https://travis-ci.org/TheFox/ext.rb)
 
 ## License
+
 Copyright (C) 2015 Christian Mayer <http://fox21.at>
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.

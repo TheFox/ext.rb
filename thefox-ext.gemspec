@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
 	spec.email         = 'christian@fox21.at'
 	
 	spec.summary       = %q{Extended Ruby Classes}
-	spec.description   = %q{Extended and useful helper classes for Ruby.}
+	spec.description   = %q{This gem extents some of the basic Ruby classes by missing functionalities.}
 	spec.homepage      = 'https://github.com/TheFox/ext.rb'
 	spec.license       = 'GPL-3.0'
 	
