@@ -1,5 +1,6 @@
 /.bundle/
 .setup
 CHANGELOG-*.txt
+dev
 Gemfile.lock
 /releases/
