@@ -5,6 +5,18 @@ require 'thefox-ext'
 
 
 class TestHash < MiniTest::Test
+	def test_wrong_type
+		h1 = {'k1' => 1, 'k2' => 1}
+		
+		assert_raises ArgumentError do
+			h1.merge_recursive!(nil)
+		end
+		
+		assert_raises ArgumentError do
+			h1.merge_recursive!([3, 2, 1])
+		end
+	end
+	
 	def test_merge_recursive_clone1
 		h1 = {'k1' => 1, 'k2' => 1}
 		h2 = {'k1' => 2, 'k2' => 2}

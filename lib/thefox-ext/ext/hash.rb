@@ -2,6 +2,10 @@
 class Hash
 	
 	def merge_recursive(h2, level = 0, clone = true)
+		if !h2.is_a?(Hash)
+			raise ArgumentError, "Argument is not a Hash -- #{h2.class} given"
+		end
+		
 		has_subhashes = false
 		
 		h1 = self
