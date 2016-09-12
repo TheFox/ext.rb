@@ -1,6 +1,7 @@
 /.bundle/
 .setup
 CHANGELOG-*.txt
+/coverage/
 dev
 Gemfile.lock
 /releases/
