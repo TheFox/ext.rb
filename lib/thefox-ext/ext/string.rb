@@ -1,15 +1,19 @@
 
 class String
+	
+	# Is a String only made of numbers?
 	def is_digit?
 		r = '0'..'9'
 		self.split('').keep_if{ |c| r.include?(c) }.count == self.length
 	end
 	
+	# Is a String only made of lower-case charaters.
 	def is_lower?
 		r = 'a'..'z'
 		self.split('').keep_if{ |c| r.include?(c) }.count == self.length
 	end
 	
+	# Is a String only made of upper-case charaters.
 	def is_upper?
 		r = 'A'..'Z'
 		self.split('').keep_if{ |c| r.include?(c) }.count == self.length
@@ -24,6 +28,7 @@ class String
 		return true
 	end
 	
+	# Convert 'hello world' to 'Hello World'.
 	def titlecase
 		self
 			.split(/ /)
@@ -35,6 +40,7 @@ class String
 		self.split('').map{ |c| sprintf '%02x', c.ord }.join
 	end
 	
+	# Convert a String to an Integer 32-bit Array.
 	def to_i32a
 		len = self.length
 		len_w = (len >> 2) + (len & 0x3).to_b.to_i

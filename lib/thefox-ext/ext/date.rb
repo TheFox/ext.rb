@@ -6,6 +6,7 @@ class Date
 		self == Date.today
 	end
 	
+	# Get all days (as Date objects) for the current week.
 	def week
 		cweek = self.cweek
 		year = self.year
