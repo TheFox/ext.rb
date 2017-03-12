@@ -13,10 +13,10 @@ class Array
 		s.split(',').map{ |i|
 			s = i.strip
 			if /\.\./.match(s) # ( . )( . ) <--- BOOBS
-				b, e = s.split('..', 2).map{ |s| s.to_i }
+				b, e = s.split('..', 2).map{ |r| r.to_i }
 				Range.new(b, e)
 			elsif /-/.match(s)
-				b, e = s.split('-', 2).map{ |s| s.to_i }
+				b, e = s.split('-', 2).map{ |r| r.to_i }
 				Range.new(b, e)
 			else
 				s.to_i
