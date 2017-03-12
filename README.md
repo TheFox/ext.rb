@@ -27,6 +27,8 @@ Use it in your sources:
 - Date
 	- `today?`
 	- Get week array for a specific date.
+- Array
+	- Range String Resolver
 - Hash
 	- Recursive Merge
 

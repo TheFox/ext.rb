@@ -3,7 +3,6 @@
 require 'minitest/autorun'
 require 'thefox-ext'
 
-
 class TestInteger < MiniTest::Test
 	def test_to_b
 		assert_equal(true, 3.to_b)

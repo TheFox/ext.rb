@@ -3,7 +3,6 @@
 require 'minitest/autorun'
 require 'thefox-ext'
 
-
 class TestDate < MiniTest::Test
 	def test_today
 		assert_equal(true, Date.today.today?)

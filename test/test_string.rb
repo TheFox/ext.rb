@@ -3,7 +3,6 @@
 require 'minitest/autorun'
 require 'thefox-ext'
 
-
 class TestString < MiniTest::Test
 	def test_is_digit
 		assert_equal(true, '0123456789'.is_digit?)

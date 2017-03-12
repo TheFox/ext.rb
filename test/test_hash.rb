@@ -3,7 +3,6 @@
 require 'minitest/autorun'
 require 'thefox-ext'
 
-
 class TestHash < MiniTest::Test
 	def test_wrong_type
 		h1 = {'k1' => 1, 'k2' => 1}
