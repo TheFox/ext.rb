@@ -11,15 +11,15 @@ class Array
 		end
 		
 		s.split(',').map{ |i|
-			s = i.strip
-			if /\.\./.match(s) # ( . )( . ) <--- BOOBS
-				b, e = s.split('..', 2).map{ |r| r.to_i }
+			ts = i.strip
+			if /\.\./.match(ts) # ( . )( . ) <--- BOOBS
+				b, e = ts.split('..', 2).map{ |r| r.to_i }
 				Range.new(b, e)
-			elsif /-/.match(s)
-				b, e = s.split('-', 2).map{ |r| r.to_i }
+			elsif /-/.match(ts)
+				b, e = ts.split('-', 2).map{ |r| r.to_i }
 				Range.new(b, e)
 			else
-				s.to_i
+				ts.to_i
 			end
 		}.each do |r|
 			if r.is_a?(Range)
