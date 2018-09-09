@@ -1,19 +1,20 @@
 language: ruby
 rvm:
-    - 2.1
-    - 2.2
-    - 2.3
-    - 2.4.0
-    - ruby-head
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4.0
+  - 2.5.0
+  - ruby-head
 sudo: required
 before_install:
-    - gem update --system
-    - gem install bundler -v '~>1.13'
-    - bundler --version
+  - gem update --system
+  - gem install bundler -v '~>1.13'
+  - bundler --version
 install:
-    - make
-    - gem build thefox-ext.gemspec
-    - gem install thefox-ext-*.gem
-    - gem list -l thefox-ext
+  - make
+  - gem build thefox-ext.gemspec
+  - gem install thefox-ext-*.gem
+  - gem list -l thefox-ext
 script:
-    - make test
+  - ./bin/test.sh
