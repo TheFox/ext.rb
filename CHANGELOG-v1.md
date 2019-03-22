@@ -58,5 +58,3 @@
 - String Manipulation
   - Title Case
   - UTF-8 Encoding
-
-## v1.0.0-rc.1
