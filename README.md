@@ -48,7 +48,6 @@ require 'thefox-ext'
 ## Project Links
 
 - [Gem](https://rubygems.org/gems/thefox-ext)
-- [Travis CI Repository](https://travis-ci.org/TheFox/ext.rb)
 
 ## License
 
