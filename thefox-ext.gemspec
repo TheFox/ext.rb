@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 	spec.summary       = %q{Extended Ruby Classes}
 	spec.description   = %q{This gem extents some of the basic Ruby classes by missing functionalities.}
 	spec.homepage      = TheFox::Ext::HOMEPAGE
-	spec.license       = 'GPL-3.0'
+	spec.license       = 'MIT'
 	
 	spec.files         = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
 	spec.require_paths = ['lib']

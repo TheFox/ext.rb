@@ -1,5 +1,10 @@
 # Release Notes for Extended Ruby Classes v1.x
 
+## v1.6.0 [unreleased]
+
+- MIT License
+- Remove Travis CI support.
+
 ## v1.5.1
 
 - Local variable shadowing fix.
