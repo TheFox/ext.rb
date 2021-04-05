@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         ruby-version:
-          - '2.4'
+          - '2.5'
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -32,7 +32,5 @@ jobs:
         run: |
           mkdir -p ~/.gem
           printf "%s\n:rubygems_api_key: %s" "---" "${RUBYGEMSORG_API_KEY}" > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
-      - name: Install
-        run: ./bin/install.sh
       - name: Release
         run: ./bin/release.sh
