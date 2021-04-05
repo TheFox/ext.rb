@@ -42,6 +42,6 @@ release:
   only:
     - tags
   script:
-    - mkdir -p ~/.gem
-    - 'printf "%s\n:rubygems_api_key: %s" "---" "${RUBYGEMSORG_API_KEY}" > ~/.gem/credentials; chmod 0600 ~/.gem/credentials'
+    -
+    - ''
     - ./bin/release.sh
