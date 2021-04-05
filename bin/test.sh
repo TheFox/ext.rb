@@ -10,4 +10,4 @@ which bundler &> /dev/null || { echo 'ERROR: bundler not found in PATH'; exit 1;
 
 cd "${SCRIPT_BASEDIR}/.."
 
-bundler exec ./test/suite_all.rb
+bundler exec ./test/suite_all.rb $*

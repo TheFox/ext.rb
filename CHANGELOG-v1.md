@@ -4,6 +4,7 @@
 
 - MIT License
 - Remove Travis CI support.
+- Range++
 
 ## v1.5.1
 
