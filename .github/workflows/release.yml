@@ -12,12 +12,12 @@ on:
       - v*
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby-version:
-          - '2.3'
+          - '2.4'
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
