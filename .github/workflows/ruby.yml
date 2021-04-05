@@ -13,20 +13,20 @@ on:
     branches:
       - master
 
+defaults:
+  runs-on: ubuntu-latest
+  strategy:
+    matrix:
+      ruby-version:
+        - '2.3'
+        # - '2.4'
+        # - '2.5'
+        # - '2.6'
+        # - '2.7'
+        # - '3.0'
+
 jobs:
   test:
-
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version:
-          - '2.3'
-          # - '2.4'
-          # - '2.5'
-          # - '2.6'
-          # - '2.7'
-          # - '3.0'
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -35,7 +35,13 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
+      - name: Setup Rubygems
+        run: |
+          mkdir -p ~/.gem
+          printf "%s\n:rubygems_api_key: %s" "---" "${RUBYGEMSORG_API_KEY}" > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
       - name: Install
         run: ./bin/install.sh
       - name: Run tests
         run: ./bin/test.sh
+
+  release:
