@@ -1,5 +1,7 @@
 # Release Notes for Extended Ruby Classes v1.x
 
+## v1.9.0 [unreleased]
+
 ## v1.8.0
 
 - Ruby v3 Support
