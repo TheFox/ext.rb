@@ -99,11 +99,6 @@ class String
     items2.map{ |item|
       item_striped = item.strip
       if range_match = item_striped.match(/(\d+)\{([\d\-\+,]+)\}/)
-        # puts '-> subrange'
-        # pp range_match
-        # subranges = range_match[2].resolve_range(range_match[1])
-        # # puts "subranges: #{subranges}"
-        # subranges
         range_match[2].resolve_range(range_match[1])
       elsif /\.\./.match(item_striped) # ( . )( . ) <--- BOOBS
         Range.new(*item_striped.split('..', 2).map{ |range| range.to_i })
@@ -123,14 +118,12 @@ class String
       elsif range.is_a?(Array)
         rv.push(*range)
       else
-        # pp range
         rv << range
       end
     }
 
     if !prefix.empty?
       rv = rv.map { |i|
-        # puts '-> map: prefix="%s" i="%d"' % [prefix, i]
         (prefix + i.to_s).to_i
       }
     end
