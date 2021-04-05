@@ -1,6 +1,21 @@
 # Release Notes for Extended Ruby Classes v1.x
 
-## v1.7.0 [unreleased]
+## v1.8.0 [unreleased]
+
+- Ruby v3 Support
+
+## v1.7.0
+
+- GitHub Actions
+- Ruby Support: 2.4, 2.5, 2.6, 2.7
+
+## v1.6.3 [unreleased]
+
+Only RCs.
+
+## v1.6.1
+
+- Deployment
 
 ## v1.6.0
 
