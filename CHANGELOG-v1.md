@@ -2,6 +2,8 @@
 
 ## v1.9.0 [unreleased]
 
+- Tests
+
 ## v1.8.0
 
 - Ruby v3 Support
