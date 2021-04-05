@@ -3,6 +3,7 @@
 ## v1.9.0 [unreleased]
 
 - Tests
+- Array Ranges
 
 ## v1.8.0
 
