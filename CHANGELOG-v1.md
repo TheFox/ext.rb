@@ -1,6 +1,8 @@
 # Release Notes for Extended Ruby Classes v1.x
 
-## v1.6.0 [unreleased]
+## v1.7.0 [unreleased]
+
+## v1.6.0
 
 - MIT License
 - Remove Travis CI support.
