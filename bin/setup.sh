@@ -4,8 +4,6 @@
 
 SCRIPT_BASEDIR=$(dirname "$0")
 
-
-set -e
 which cp &> /dev/null || { echo 'ERROR: cp not found in PATH'; exit 1; }
 which bundler &> /dev/null || { echo 'ERROR: bundler not found in PATH'; exit 1; }
 

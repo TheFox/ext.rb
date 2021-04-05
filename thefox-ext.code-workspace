@@ -9,6 +9,15 @@
     "version": "2.0.0",
     "tasks": [
       {
+        "label": "Setup",
+        "type": "shell",
+        "command": "./bin/setup.sh",
+        "group": "build",
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        }
+      }, {
         "label": "Test",
         "type": "shell",
         "command": "./bin/test.sh",
