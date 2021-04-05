@@ -11,16 +11,16 @@ Gem::Specification.new do |spec|
 	spec.date          = TheFox::Ext::DATE
 	spec.author        = 'Christian Mayer'
 	spec.email         = 'christian@fox21.at'
-	
+
 	spec.summary       = %q{Extended Ruby Classes}
 	spec.description   = %q{This gem extents some of the basic Ruby classes by missing functionalities.}
 	spec.homepage      = TheFox::Ext::HOMEPAGE
 	spec.license       = 'MIT'
-	
+
 	spec.files         = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
 	spec.require_paths = ['lib']
-	spec.required_ruby_version = '>=2.1.0'
-	
+	spec.required_ruby_version = '>=2.3.0'
+
 	spec.add_development_dependency 'minitest', '~>5.8'
 	spec.add_development_dependency 'simplecov', '~>0.13'
 	spec.add_development_dependency 'simplecov-phpunit', '~>1.0'

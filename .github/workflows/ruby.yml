@@ -6,6 +6,11 @@ env:
   GEM_NAME: thefox-ext
   GEMSPEC_FILE: thefox-ext.gemspec
 
+defaults:
+  run:
+    - pwd
+    - id
+
 on:
   push:
     tags:
