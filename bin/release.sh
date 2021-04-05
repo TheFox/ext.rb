@@ -4,21 +4,21 @@
 
 SCRIPT_BASEDIR=$(dirname "$0")
 
-
-set -e
 which mv &> /dev/null || { echo 'ERROR: mv not found in PATH'; exit 1; }
 which gem &> /dev/null || { echo 'ERROR: gem not found in PATH'; exit 1; }
 
 cd "${SCRIPT_BASEDIR}/.."
 
 # Load Environment Variables
-[[ -f .env ]] && source .env
+if [[ -f .env ]] ; then
+	source .env
+fi
 
 if [[ -z "${GEMSPEC_FILE}" ]] ; then
 	echo 'ERROR: one of the environment variables is missing'
-	
+
 	echo "GEMSPEC_FILE: '${GEMSPEC_FILE}'"
-	
+
 	exit 1
 fi
 
@@ -30,7 +30,7 @@ gem push "$gem_file"
 # Create tmp directory.
 if [[ ! -d tmp/releases ]]; then
 	mkdir -p tmp/releases
-	
+
 	chmod u=rwx,go-rwx tmp
 	chmod u=rwx,go-rwx tmp/releases
 fi

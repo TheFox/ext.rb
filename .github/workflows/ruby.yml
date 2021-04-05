@@ -2,11 +2,14 @@
 name: Ruby
 
 env:
+  LANG: C.UTF-8
   GEM_NAME: thefox-ext
   GEMSPEC_FILE: thefox-ext.gemspec
 
 on:
   push:
+    tags:
+      - v*
     branches:
       - master
 
