@@ -30,9 +30,6 @@ class TestArray < MiniTest::Test
     assert_equal([21, 22, 23], Array.resolve_range_str('21++'))
     assert_equal([21, 22, 23, 24], Array.resolve_range_str('21+++'))
     assert_equal([20, 21, 22, 23, 24], Array.resolve_range_str('20,21+++'))
-
-    # assert_equal([142, 198], Array.resolve_range_str('42,98', '1'))
-    # assert_equal([42, 198, 199], Array.resolve_range_str('42,1{98,99}'))
   end
 
 end
