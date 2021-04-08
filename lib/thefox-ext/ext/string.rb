@@ -64,39 +64,33 @@ class String
     end
   end
 
-  # Resolve a range string to an array.
-  # A range string can be like '1, 3..5, 9-11, 12+, 14++, 17+++'.
-  # Which will be resolved to [1, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].
+  # DEPRECATED: will be removed in v2.0.0.
   def resolve_range(prefix = '')
     # puts '-> resolve_range: %s {%s}' % [self, prefix]
+    warn "[DEPRECATION] `String.resolve_range` is deprecated. Please use `TheFox::Range::Resolver` instead."
 
     rv = Array.new
 
-    items1 = self.split(',')
-    # pp items1
-
-    items2 = []
+    items = []
     is_sub_range = false
     sub_item = []
-    items1.each do |item|
+    self.split(',').each do |item|
       if item.count('{') > 0
         is_sub_range = true
       end
       if is_sub_range
         sub_item.push(item)
       else
-        items2.push(item)
+        items.push(item)
       end
       if item.count('}') > 0
         is_sub_range = false
-        items2.push(sub_item.join(','))
+        items.push(sub_item.join(','))
         sub_item = []
       end
     end
 
-    # pp items2
-
-    items2.map{ |item|
+    items.map{ |item|
       item_striped = item.strip
       if range_match = item_striped.match(/(\d+)\{([\d\-\+,]+)\}/)
         range_match[2].resolve_range(range_match[1])
@@ -105,8 +99,7 @@ class String
       elsif /-/.match(item_striped)
         Range.new(*item_striped.split('-', 2).map{ |range| range.to_i })
       elsif /\+/.match(item_striped)
-        items = item_striped.split('+')
-        range_begin = items[0].to_i
+        range_begin = item_striped.split('+').first.to_i
         range_end = range_begin + item_striped.count('+')
         Range.new(range_begin, range_end)
       else

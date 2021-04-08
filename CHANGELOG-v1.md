@@ -2,6 +2,9 @@
 
 ## v1.10.0 [unreleased]
 
+- [DEPRECATION] `Array.resolve_range_str` is deprecated.
+- [DEPRECATION] `String.resolve_range` is deprecated.
+
 ## v1.9.0
 
 - Tests

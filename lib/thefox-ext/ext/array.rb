@@ -1,9 +1,9 @@
 
 class Array
 
-  # DEPRECATED: will be removed in v1.10.0.
+  # DEPRECATED: will be removed in v2.0.0.
   def self.resolve_range_str(original_str, prefix = '')
-    warn "[DEPRECATION] `Array.resolve_range_str` is deprecated. Please use `String.resolve_range` instead."
+    warn "[DEPRECATION] `Array.resolve_range_str` is deprecated."
 
     rv = Array.new
     if !original_str.is_a?(String)

@@ -121,6 +121,8 @@ class TestString < MiniTest::Test
     assert_equal([1, 21, 22, 23, 25, 26, 27, 4, 51, 52], '1,2{1-3,5,6,7},4,5{1,2}'.resolve_range)
     assert_equal([1, 21, 22, 23, 25, 26, 27, 4, 51, 52], '1,2{1-3,5+,7},4,5{1,2}'.resolve_range)
     assert_equal([1, 21, 22, 23, 25, 26, 27, 4, 51, 52], '1,2{1-3,5++},4,5{1,2}'.resolve_range)
+    # assert_equal([1, 202, 22], '1,2{02},2{2}'.resolve_range)
+    assert_equal([1, 202, 203, 204], '1,20{2-4}'.resolve_range)
   end
 
 end
