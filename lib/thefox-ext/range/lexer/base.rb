@@ -22,7 +22,7 @@ module Lexer
     end
 
     def lex()
-      nil
+      self
     end
 
     def resolve()

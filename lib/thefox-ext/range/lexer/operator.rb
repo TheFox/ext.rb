@@ -2,7 +2,7 @@
 module TheFox
 module Range
 module Lexer
-  # + -
+  # +
   class Operator < Base
     def initialize()
       super()

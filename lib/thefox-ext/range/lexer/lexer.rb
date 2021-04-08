@@ -26,8 +26,10 @@ module Lexer
           LevelDown.new()
         when '}'
           LevelUp.new()
-        when '+', '-'
-          Separator.new()
+        when '+'
+          Operator.new()
+        when '-'
+          Range.new()
         when '0'..'9'
           Number.new(char)
         end
@@ -40,20 +42,32 @@ module Lexer
         prev_item = curr_item
       end
 
+      puts ''
+
       # items_l2 = items_l1
+      puts '-> lex'
       items_l2 = items_l1.map{ |item|
+        puts '-> lex item: %s -> %s' % [item.class.to_s, item.lex.class.to_s]
         item.lex
       }.filter{ |item| !item.nil? }
 
-      puts '-> resolve'
+      puts ''
+
+      puts '-> resolve A'
       items_l2.each do |item|
         puts '-> resolve item: %s' % [item.class.to_s]
         item.resolve
       end
 
+      puts ''
+      puts '-> resolve B'
       items_l2
         .map{ |item| item.resolve }
-        .map{ |item| item.is_a?(String) ? item.to_i : item }
+        .map{ |item|
+          if item.is_a?(::String)
+            item.to_i
+          end
+        }
     end
   end # Lexer
 end # Lexer

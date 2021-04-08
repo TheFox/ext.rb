@@ -15,8 +15,12 @@ module Range
     def to_a
       puts '-> TheFox::Range::Resolver.to_a'
 
-      lexer = Lexer::Lexer.new(@original.split(''))
-      lexer.resolve
+      if @original.is_a?(String)
+        lexer = Lexer::Lexer.new(@original.split(''))
+        lexer.resolve
+      else
+        []
+      end
     end
   end # Resolver
 end # Range

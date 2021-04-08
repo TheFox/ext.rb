@@ -15,4 +15,14 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([], rr.to_a)
   end
 
+  def test_range_resolver_number
+    rr = TheFox::Range::Resolver.new('123')
+    assert_equal([123], rr.to_a)
+  end
+
+  def test_range_resolver_numbers
+    rr = TheFox::Range::Resolver.new('123,456')
+    assert_equal([123, 456], rr.to_a)
+  end
+
 end
