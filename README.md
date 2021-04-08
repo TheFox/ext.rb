@@ -42,6 +42,7 @@ require 'thefox-ext'
 	- Get week array for a specific date.
 - Hash
 	- Recursive Merge
+- Range String Resolver
 
 ## Project Links
 
