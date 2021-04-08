@@ -84,45 +84,4 @@ class TestString < MiniTest::Test
     assert_equal('Abc', 'Abc'.to_utf8)
     assert_equal('AüäößE', 'AüäößE'.to_utf8)
   end
-
-  def test_resolve_range
-    assert_equal([], ''.resolve_range)
-    assert_equal([0], 'a'.resolve_range)
-
-    assert_equal([1], '1'.resolve_range)
-
-    assert_equal([1, 2], '1, 2'.resolve_range)
-    assert_equal([1, 2], '1,2'.resolve_range)
-    assert_equal([1, 2], '1,2,'.resolve_range)
-    assert_equal([1, 2, 4], '1,2,4'.resolve_range)
-
-    assert_equal([2, 3], '2..3'.resolve_range)
-    assert_equal([2, 3, 4, 5], '2..5'.resolve_range)
-    assert_equal([2, 3, 4, 5], '2-5'.resolve_range)
-    assert_equal([2, 3, 4, 5], '2-5,'.resolve_range)
-    assert_equal([2, 3], '2 .. 3'.resolve_range)
-    assert_equal([2, 3], '2 - 3'.resolve_range)
-    assert_equal([2, 3], '2 - 3,'.resolve_range)
-
-    assert_equal([2, 3, 4, 5, 7, 8], '2..5,7..8'.resolve_range)
-    assert_equal([2, 3, 4, 5, 3, 4, 5, 6], '2..5,3..6'.resolve_range)
-    assert_equal([1, 2, 3, 4, 5, 3, 4, 5, 6], '1,2..5,3..6'.resolve_range)
-    assert_equal([1, 2, 3, 4, 5, 3, 4, 5, 6], '1,2..5,3..6,'.resolve_range)
-
-    assert_equal([21, 22], '21+'.resolve_range)
-    assert_equal([21, 22, 23], '21++'.resolve_range)
-    assert_equal([21, 22, 23, 24], '21+++'.resolve_range)
-    assert_equal([20, 21, 22, 23, 24], '20,21+++'.resolve_range)
-    assert_equal([20, 21, 22, 23, 24], '20,21+++,'.resolve_range)
-
-    assert_equal([142, 198], '42,98'.resolve_range('1'))
-    assert_equal([42, 198, 199, 43], '42,1{98,99},43'.resolve_range)
-    assert_equal([42, 197, 198, 199, 43], '42,1{97-99},43'.resolve_range)
-    assert_equal([1, 21, 22, 23, 25, 26, 27, 4, 51, 52], '1,2{1-3,5,6,7},4,5{1,2}'.resolve_range)
-    assert_equal([1, 21, 22, 23, 25, 26, 27, 4, 51, 52], '1,2{1-3,5+,7},4,5{1,2}'.resolve_range)
-    assert_equal([1, 21, 22, 23, 25, 26, 27, 4, 51, 52], '1,2{1-3,5++},4,5{1,2}'.resolve_range)
-    # assert_equal([1, 202, 22], '1,2{02},2{2}'.resolve_range)
-    assert_equal([1, 202, 203, 204], '1,20{2-4}'.resolve_range)
-  end
-
 end

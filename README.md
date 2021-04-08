@@ -40,8 +40,6 @@ require 'thefox-ext'
 - Date
 	- `today?`
 	- Get week array for a specific date.
-- Array
-	- Range String Resolver
 - Hash
 	- Recursive Merge
 

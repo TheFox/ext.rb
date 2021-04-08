@@ -8,6 +8,5 @@ require 'thefox-ext/ext/integer'
 require 'thefox-ext/ext/nil'
 require 'thefox-ext/ext/string'
 require 'thefox-ext/ext/true'
-require 'thefox-ext/ext/array'
 
 require 'thefox-ext/console'
