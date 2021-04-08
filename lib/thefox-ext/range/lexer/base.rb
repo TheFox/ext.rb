@@ -8,6 +8,8 @@ module Lexer
       @prev_item = nil
       @next_item = nil
       @parent_item = nil
+      # @resolvers = lambda{ nil }
+      @resolvers = []
     end
 
     def prev_item=(prev_item)
@@ -25,9 +27,17 @@ module Lexer
       self
     end
 
+    def resolvers=(resolvers)
+      @resolvers = resolvers
+    end
+
+    def resolvers()
+      @resolvers
+    end
+
     def resolve()
       # puts '-> TheFox::Range::Lexer::Base.resolve'
-      nil
+      @resolvers.map{ |resolver| resolver.call }
     end
   end # Base
 end # Lexer

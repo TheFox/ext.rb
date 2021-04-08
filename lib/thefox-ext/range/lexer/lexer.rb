@@ -42,32 +42,32 @@ module Lexer
         prev_item = curr_item
       end
 
-      puts ''
+      # puts ''
 
       # items_l2 = items_l1
-      puts '-> lex'
-      items_l2 = items_l1.map{ |item|
-        puts '-> lex item: %s -> %s' % [item.class.to_s, item.lex.class.to_s]
-        item.lex
-      }.filter{ |item| !item.nil? }
+      # puts '-> lex'
+      # items_l2 = items_l1.map{ |item|
+      #   puts '-> lex item: %s -> %s' % [item.class.to_s, item.lex.class.to_s]
+      #   item.lex
+      # }.filter{ |item| !item.nil? }
 
-      puts ''
+      # puts ''
 
-      puts '-> resolve A'
-      items_l2.each do |item|
-        puts '-> resolve item: %s' % [item.class.to_s]
-        item.resolve
-      end
+      # puts '-> resolve A'
+      # items_l2.each do |item|
+      #   puts '-> resolve item: %s' % [item.class.to_s]
+      #   item.resolve
+      # end
 
-      puts ''
-      puts '-> resolve B'
-      items_l2
-        .map{ |item| item.resolve }
-        .map{ |item|
-          if item.is_a?(::String)
-            item.to_i
-          end
-        }
+      # puts ''
+      # puts '-> resolve B'
+      # items_l2
+      #   .map{ |item| item.resolve }
+      #   .map{ |item|
+      #     if item.is_a?(::String)
+      #       item.to_i
+      #     end
+      #   }
     end
   end # Lexer
 end # Lexer

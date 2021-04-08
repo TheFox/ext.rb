@@ -8,13 +8,16 @@ module Lexer
       super()
       puts '-> TheFox::Range::Lexer::Range.initialize'
     end
-    def resolve()
-      puts '-> TheFox::Range::Lexer::Range.resolve -> %s %s' % [@prev_item.class.to_s, @next_item.class.to_s]
 
-      if @prev_item.is_a?(Number) && @next_item.is_a?(Number)
-        '%s%s' % [@prev_item.resolve, @next_item.resolve]
-      end
-    end
+    # def resolve()
+    #   puts '-> TheFox::Range::Lexer::Range.resolve'
+
+    #   if @prev_item.is_a?(Number) && @next_item.is_a?(Number)
+    #     r_begin = @prev_item.resolve
+    #     r_end = @next_item.resolve
+    #     ::Range.new(r_begin, r_end).to_a
+    #   end
+    # end
   end # Range
 end # Lexer
 end # Range
