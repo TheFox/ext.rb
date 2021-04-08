@@ -1,6 +1,6 @@
 # Release Notes for Extended Ruby Classes v1.x
 
-## v1.10.0 [unreleased]
+## v1.10.0
 
 - [DEPRECATION] `Array.resolve_range_str` is deprecated.
 - [DEPRECATION] `String.resolve_range` is deprecated.
