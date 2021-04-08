@@ -93,22 +93,27 @@ class TestString < MiniTest::Test
 
     assert_equal([1, 2], '1, 2'.resolve_range)
     assert_equal([1, 2], '1,2'.resolve_range)
+    assert_equal([1, 2], '1,2,'.resolve_range)
     assert_equal([1, 2, 4], '1,2,4'.resolve_range)
 
     assert_equal([2, 3], '2..3'.resolve_range)
     assert_equal([2, 3, 4, 5], '2..5'.resolve_range)
     assert_equal([2, 3, 4, 5], '2-5'.resolve_range)
+    assert_equal([2, 3, 4, 5], '2-5,'.resolve_range)
     assert_equal([2, 3], '2 .. 3'.resolve_range)
     assert_equal([2, 3], '2 - 3'.resolve_range)
+    assert_equal([2, 3], '2 - 3,'.resolve_range)
 
     assert_equal([2, 3, 4, 5, 7, 8], '2..5,7..8'.resolve_range)
     assert_equal([2, 3, 4, 5, 3, 4, 5, 6], '2..5,3..6'.resolve_range)
     assert_equal([1, 2, 3, 4, 5, 3, 4, 5, 6], '1,2..5,3..6'.resolve_range)
+    assert_equal([1, 2, 3, 4, 5, 3, 4, 5, 6], '1,2..5,3..6,'.resolve_range)
 
     assert_equal([21, 22], '21+'.resolve_range)
     assert_equal([21, 22, 23], '21++'.resolve_range)
     assert_equal([21, 22, 23, 24], '21+++'.resolve_range)
     assert_equal([20, 21, 22, 23, 24], '20,21+++'.resolve_range)
+    assert_equal([20, 21, 22, 23, 24], '20,21+++,'.resolve_range)
 
     assert_equal([142, 198], '42,98'.resolve_range('1'))
     assert_equal([42, 198, 199, 43], '42,1{98,99},43'.resolve_range)
