@@ -6,10 +6,10 @@ module Lexer
   class Operator < Base
     def initialize()
       super()
-      puts '-> TheFox::Range::Lexer::Operator.initialize'
+      puts '-> Operator.initialize'
     end
     def resolve()
-      puts '-> TheFox::Range::Lexer::Operator.resolve'
+      puts '-> Operator.resolve'
       super()
     end
   end # Operator

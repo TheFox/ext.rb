@@ -82,20 +82,32 @@ module Lexer
         case item
         when Range
           items_l3.push(*item.resolve)
+        else
+          items_l3.push(item)
         end
       end
 
-      items_l3
+      items_l4 = []
+      items_l3.each do |item|
+        case item
+        when Number
+          items_l4.push(*item.resolve)
+        else
+          items_l4.push(item)
+        end
+      end
+
+      # items_l4
       # pp items_l3.map{ |i| i.inspect }
 
-      # items_l3
+      items_l4
       #   .map{ |i| i.resolve }
         # .flatten
-        # .map{ |i|
-        #   if i.is_a?(String)
-        #     i.to_i
-        #   end
-        # }
+        .map{ |i|
+          if i.is_a?(String)
+            i.to_i
+          end
+        }
     end
   end # Lexer
 end # Lexer

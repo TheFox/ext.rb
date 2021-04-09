@@ -72,6 +72,9 @@ module Lexer
 
     def dup()
       puts '-> Base.dup'
+      @prev_item = nil
+      @next_item = nil
+      @parent_item = nil
       super()
     end
   end # Base
