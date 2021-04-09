@@ -8,8 +8,12 @@ module Lexer
       @prev_item = nil
       @next_item = nil
       @parent_item = nil
-      # @resolvers = lambda{ nil }
+
+      # @pre_resolvers = [lambda{'pre'}]
+      # @resolvers = [lambda{'res'}]
+      @pre_resolvers = []
       @resolvers = []
+      @is_resolved = false
     end
 
     def prev_item=(prev_item)
@@ -23,8 +27,24 @@ module Lexer
       @parent_item = parent_item
     end
 
-    def lex()
-      self
+    def clear_pre_resolvers()
+      puts '-> Base.clear_pre_resolvers %s' % [self.inspect]
+      @pre_resolvers = []
+      if !@prev_item.nil?
+        @prev_item.clear_pre_resolvers
+      end
+    end
+
+    def append_pre_resolvers(resolvers)
+      @pre_resolvers.push(*resolvers)
+    end
+
+    def pre_resolvers()
+      @pre_resolvers
+    end
+
+    def clear_resolvers()
+      @resolvers = []
     end
 
     def resolvers=(resolvers)
@@ -35,9 +55,24 @@ module Lexer
       @resolvers
     end
 
+    def is_resolved()
+      @is_resolved
+    end
+
     def resolve()
-      # puts '-> TheFox::Range::Lexer::Base.resolve'
-      @resolvers.map{ |resolver| resolver.call }
+      # puts '-> Base.resolve'
+      # resolved = []
+      # resolved.push(*@pre_resolvers.map{ |resolver| resolver.call })
+      # resolved.push(*@resolvers.map{ |resolver| resolver.call })
+      # resolved = @resolvers.map{ |resolver| resolver.call }
+      # @resolvers = []
+      # resolved
+      @is_resolved = true
+    end
+
+    def dup()
+      puts '-> Base.dup'
+      super()
     end
   end # Base
 end # Lexer

@@ -8,46 +8,45 @@ module Lexer
   class Number < Base
     def initialize(char)
       super()
-      # puts '-> TheFox::Range::Lexer::Number.initialize(%s)' % [char]
+      # puts '-> Number.initialize(%s)' % [char]
       @char = char
-      @resolvers = [lambda{ @char }]
+      # @resolvers = [lambda{@char}]
+      # @resolvers = [lambda{
+      #   puts '-> Resolve %s' % [self.inspect]
+      #   if @next_item.is_a?(Number)
+      #     puts '--> has next item'
+      #     [@char, @next_item.resolve].flatten.join()
+      #   elsif @next_item.is_a?(Range)
+      #   else
+      #     puts '--> next is not Number'
+      #     @char
+      #   end
+      # }]
+    end
+
+    def inspect()
+      'Number(%s)' % [@char]
     end
 
     def char()
       @char
     end
 
-    def lex()
-      if @prev_item.is_a?(Number) || @next_item.is_a?(Separator)
-        nil
-      elsif @next_item.is_a?(Range) || @prev_item.is_a?(Range)
-        nil
-      else
-        self
-      end
+    def append(char)
+      @char += char
     end
 
     def resolve()
-      puts '-> TheFox::Range::Lexer::Number.resolve(%s)' % [@char]
+      puts '-> Number.resolve(%s)' % [@char]
       super()
-      # sleep(0.1)
 
-      # if @next_item.is_a?(Range) || @prev_item.is_a?(Range)
-      #   puts '-> next or prev is Range'
-      #   @char
-      # elsif @next_item.is_a?(Number)
-      #   puts '-> next is Number'
-      #   '%s%s' % [@char, @next_item.resolve]
-      # elsif @next_item.is_a?(Separator)
-      #   @char
-      # elsif @next_item.nil?
-      #   @char
-      # else
-      #   pp self
-      #   # pp @prev_item
-      #   # pp @next_item
-      #   raise 'Number resolve else'
-      # end
+      if @next_item.is_a?(Number)
+        # puts '--> next is Number'
+        '%s%s' % [@char, @next_item.resolve]
+      else
+        # puts '--> next is ELSE'
+        @char
+      end
     end
   end # Range
 end # Lexer

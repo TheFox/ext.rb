@@ -2,16 +2,10 @@
 module TheFox
 module Range
 module Lexer
-  # ,
-  class Separator < Base
-    # def initialize()
-    #   super()
-    #   puts '-> TheFox::Range::Lexer::Separator.initialize'
-    # end
-    # def resolve()
-    #   puts '-> TheFox::Range::Lexer::Separator.resolve'
-    #   super()
-    # end
+  class Separator < Scope
+    def inspect()
+      'Separator'
+    end
   end # Separator
 end # Lexer
 end # Range

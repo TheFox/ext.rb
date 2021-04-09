@@ -11,21 +11,25 @@ module Lexer
     end
 
     def resolve()
-      puts '-> TheFox::Range::Lexer::Lexer.resolve'
-      @chars.each do |char|
-        puts '-> char: "%s"' % [char]
-      end
+      puts '-> Lexer.resolve L1'
+      # @chars.each do |char|
+      #   puts '-> char: "%s"' % [char]
+      # end
 
       prev_item = nil
+      # curr_number = nil
+      # curr_block = nil
+      block_level = 0
       items_l1 = []
       @chars.each do |char|
         curr_item = case char
         when ','
           Separator.new()
         when '{'
-          LevelDown.new()
+          block_level += 1
+          Block.new(block_level)
         when '}'
-          LevelUp.new()
+          block_level -= 1
         when '+'
           Operator.new()
         when '-'
@@ -42,32 +46,56 @@ module Lexer
         prev_item = curr_item
       end
 
-      # puts ''
+      puts '-> Lexer.resolve L2'
+      items_l2 = []
+      prev_item = nil
+      items_l1.each do |item|
+        # if item.is_a?(Scope)
+        #   puts '--> new Scope'
+        #   prev_item = nil
+        # end
 
-      # items_l2 = items_l1
-      # puts '-> lex'
-      # items_l2 = items_l1.map{ |item|
-      #   puts '-> lex item: %s -> %s' % [item.class.to_s, item.lex.class.to_s]
-      #   item.lex
-      # }.filter{ |item| !item.nil? }
+        if item.is_resolved
+          puts '-> skip already resolved item'
+          next
+        end
 
-      # puts ''
+        case item
+        when Number
+          puts '-> item is Number'
+          curr_item = Number.new(item.resolve)
+        else
+          curr_item = item.dup
+          puts '-> ELSE: %s' % [curr_item.class]
+        end
 
-      # puts '-> resolve A'
-      # items_l2.each do |item|
-      #   puts '-> resolve item: %s' % [item.class.to_s]
-      #   item.resolve
-      # end
+        if !prev_item.nil?
+          prev_item.next_item = curr_item
+          curr_item.prev_item = prev_item
+        end
+        items_l2.push(curr_item)
+        prev_item = curr_item
+      end
 
-      # puts ''
-      # puts '-> resolve B'
-      # items_l2
-      #   .map{ |item| item.resolve }
-      #   .map{ |item|
-      #     if item.is_a?(::String)
-      #       item.to_i
-      #     end
-      #   }
+      items_l3 = []
+      items_l2.each do |item|
+        case item
+        when Range
+          items_l3.push(*item.resolve)
+        end
+      end
+
+      items_l3
+      # pp items_l3.map{ |i| i.inspect }
+
+      # items_l3
+      #   .map{ |i| i.resolve }
+        # .flatten
+        # .map{ |i|
+        #   if i.is_a?(String)
+        #     i.to_i
+        #   end
+        # }
     end
   end # Lexer
 end # Lexer
