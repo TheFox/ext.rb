@@ -92,13 +92,15 @@ module Lexer
       puts
       puts '-> Lexer.resolve L3'
       # curr_item = nil
-      curr_item_f = nil
+      append_dub_f = nil
+      append_prev_f = nil
       prev_item = nil
       items3 = []
       items2.each do |item|
         puts '--> item: %s  prev: %s  next: %s' % [item.inspect, item.prev_item.inspect, item.next_item.inspect]
 
         append_dup = false
+        append_prev = false
 
         case item
         when Number
@@ -109,11 +111,11 @@ module Lexer
           end
         when Range
           if item.prev_item.is_a?(Number) && item.next_item.is_a?(Number)
-            curr_item_f = -> (curr_item){
+            # puts '--> Range normal'
+            append_dub_f = -> (curr_item){
               curr_item.left_item = item.prev_item.dup
               curr_item.right_item = item.next_item.dup
             }
-
             append_dup = true
           else
             raise 'Invalid Range: %s %s' % [
@@ -123,14 +125,8 @@ module Lexer
           end
         when Operator
           if prev_item.is_a?(Number)
-            curr_item = prev_item.dup
-            pp curr_item.inc
-            if !prev_item.nil?
-              puts '--> chain'
-              prev_item.chain(curr_item)
-            end
-            items3.push(curr_item)
-            prev_item = curr_item
+            append_prev_f = -> (curr_item){ curr_item.inc }
+            append_prev = true
           end
         else
           # puts '--> L3 ELSE'
@@ -139,13 +135,24 @@ module Lexer
 
         if append_dup
           curr_item = item.dup
-          if !curr_item_f.nil?
-            curr_item_f.call(curr_item)
-            curr_item_f = nil
+          if !append_dub_f.nil?
+            append_dub_f.call(curr_item)
+            append_dub_f = nil
           end
           if !prev_item.nil?
             prev_item.chain(curr_item)
           end
+          items3.push(curr_item)
+          prev_item = curr_item
+        end
+
+        if append_prev && !prev_item.nil?
+          curr_item = prev_item.dup
+          if !append_prev_f.nil?
+            append_prev_f.call(curr_item)
+            append_prev_f = nil
+          end
+          prev_item.chain(curr_item)
           items3.push(curr_item)
           prev_item = curr_item
         end

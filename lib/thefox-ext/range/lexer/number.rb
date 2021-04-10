@@ -25,7 +25,17 @@ module Lexer
     end
 
     def inc()
-      @char = @char[0..-2] + (@char[-1].ord + 1).chr
+      n = @char.to_i
+      n += 1
+      f = '%%0%dd' % [@char.length]
+      @char = f % [n]
+    end
+
+    def dec()
+      n = @char.to_i
+      n -= 1
+      f = '%%0%dd' % [@char.length]
+      @char = f % [n]
     end
   end # Range
 end # Lexer
