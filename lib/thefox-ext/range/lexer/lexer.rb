@@ -27,10 +27,11 @@ module Lexer
             Separator.new()
           when '{'
             block_level += 1
-            Block.new(block_level)
+            BlockDown.new(block_level)
           when '}'
+            org_level = block_level
             block_level -= 1
-            nil
+            BlockUp.new(org_level)
           when '+'
             Operator.new()
           when '-'
@@ -60,11 +61,12 @@ module Lexer
       prev_item = nil
       items2 = []
       items1.each do |item|
-        puts '--> item: %s' % [item.inspect]
+        puts '--> L2 item: %s' % [item.inspect]
 
         case item
         when Number
           if curr_item.nil?
+            # New Number
             curr_item = item.dup
             if !prev_item.nil?
               prev_item.chain(curr_item)
@@ -80,7 +82,7 @@ module Lexer
             end
           end
         else
-          puts '--> L2 ELSE'
+          # puts '--> L2 ELSE'
 
           curr_item = item.dup
           if !prev_item.nil?
@@ -97,13 +99,13 @@ module Lexer
 
       puts
       puts '-> Lexer.resolve L3'
-      # curr_item = nil
       append_dub_f = nil
       append_prev_f = nil
       prev_item = nil
+      block_stack = []
       items3 = []
       items2.each do |item|
-        puts '--> item: %s  prev: %s  next: %s' % [item.inspect, item.prev_item.inspect, item.next_item.inspect]
+        puts '--> L3 item: %20s  bs=%d' % [item.inspect, block_stack.length]
 
         append_dup = false
         append_prev = false
@@ -134,33 +136,65 @@ module Lexer
             append_prev_f = -> (curr_item){ curr_item.inc }
             append_prev = true
           end
+        when BlockDown
+          block_stack.push(item)
+          append_dup = true
+        when BlockUp
+          block_stack.pop
+          append_dup = true
         else
           # puts '--> L3 ELSE'
           append_dup = true
         end
 
+        # Append Dup
         if append_dup
+          # Dup
           curr_item = item.dup
+          # Function
           if !append_dub_f.nil?
             append_dub_f.call(curr_item)
             append_dub_f = nil
           end
+          # Chain
           if !prev_item.nil?
             prev_item.chain(curr_item)
           end
+          # Block
+          if !item.is_a?(Block)
+            curr_item.parent_item = block_stack.last
+          end
+          # Append
           items3.push(curr_item)
+          # Prev Item
           prev_item = curr_item
         end
 
+        # Append Prev
         if append_prev && !prev_item.nil?
+          # Dup
           curr_item = prev_item.dup
+          # Function
           if !append_prev_f.nil?
             append_prev_f.call(curr_item)
             append_prev_f = nil
           end
+          # Chain
           prev_item.chain(curr_item)
+          # Block
+          if !item.is_a?(Block)
+            curr_item.parent_item = block_stack.last
+          end
+          # Append
           items3.push(curr_item)
+          # Prev Item
           prev_item = curr_item
+        end
+
+        # Block
+        if item.is_a?(Block)
+          puts '--> L3 set parent block for block'
+          item.parent_item = block_stack.last
         end
       end
 
@@ -170,16 +204,21 @@ module Lexer
       puts '-> Lexer.resolve L4 [convert to int]'
       items4 = []
       items3.each do |item|
-        puts '--> item: %s' % [item.inspect]
+        puts '--> L4 item: %20s   parent: %s' % [item.inspect, item.parent_item.inspect]
 
         case item
         when Number
+          # TODO handle Block here
           items4.push(item.char.to_i)
         when Range
+          # TODO handle Block here
           r_begin = item.left_item.char.to_i
           r_end = item.right_item.char.to_i
           items4.push(*::Range.new(r_begin, r_end).to_a)
         when Separator
+          puts '---> skip Separator'
+        when Block
+          puts '---> skip Block'
         else
           raise 'Implementation missing for: %s' % [item.inspect]
         end
