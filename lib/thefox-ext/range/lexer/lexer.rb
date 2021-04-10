@@ -8,6 +8,7 @@ module Lexer
     def initialize(chars)
       puts '-> Lexer.initialize'
       @chars = chars
+      pp @chars
     end
 
     def resolve()
@@ -22,21 +23,26 @@ module Lexer
         position += 1
 
         curr_item = case char
-        when ','
-          Separator.new()
-        when '{'
-          block_level += 1
-          Block.new(block_level)
-        when '}'
-          block_level -= 1
-        when '+'
-          Operator.new()
-        when '-'
-          Range.new()
-        when '0'..'9'
-          Number.new(char)
-        else
-          raise 'Unknown character at position %d: %s' % [position, char]
+          when ','
+            Separator.new()
+          when '{'
+            block_level += 1
+            Block.new(block_level)
+          when '}'
+            block_level -= 1
+            nil
+          when '+'
+            Operator.new()
+          when '-'
+            Range.new()
+          when '0'..'9'
+            Number.new(char)
+          else
+            raise 'Unknown character at position %d: %s' % [position, char]
+          end
+
+        if curr_item.nil?
+          next
         end
 
         if !prev_item.nil?
@@ -173,6 +179,9 @@ module Lexer
           r_begin = item.left_item.char.to_i
           r_end = item.right_item.char.to_i
           items4.push(*::Range.new(r_begin, r_end).to_a)
+        when Separator
+        else
+          raise 'Implementation missing for: %s' % [item.inspect]
         end
       end
 
