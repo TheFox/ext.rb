@@ -12,14 +12,6 @@ module Lexer
     def inspect()
       'Block(%d)' % [@level]
     end
-    def dup()
-      puts '-> Block.dup'
-      super()
-    end
-    # def resolve()
-    #   puts '-> TheFox::Range::Lexer::Block.resolve'
-    #   super()
-    # end
   end # Block
 end # Lexer
 end # Range

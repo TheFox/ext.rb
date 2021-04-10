@@ -12,4 +12,4 @@ s = '123+'
 # s = '1,2-4'
 # s = '1,2,1{1-2},2{02-04},1{2{3,4}},2++,'
 rr = TheFox::Range::Resolver.new(s)
-pp rr.to_a
+rr.to_a

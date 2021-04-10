@@ -8,9 +8,8 @@ module Lexer
       super()
       puts '-> Operator.initialize'
     end
-    def resolve()
-      puts '-> Operator.resolve'
-      super()
+    def inspect()
+      'Operator(%d)' % [@level]
     end
   end # Operator
 end # Lexer
