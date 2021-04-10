@@ -54,7 +54,7 @@ module Lexer
       prev_item = nil
       items2 = []
       items1.each do |item|
-        puts '--> item: %s' % [item.class]
+        puts '--> item: %s' % [item.inspect]
 
         case item
         when Number
@@ -92,40 +92,57 @@ module Lexer
       puts
       puts '-> Lexer.resolve L3'
       # curr_item = nil
+      curr_item_f = nil
       prev_item = nil
       items3 = []
       items2.each do |item|
-        puts '--> item: %s  prev: %s  next: %s' % [item.class.inspect, item.prev_item.inspect, item.next_item.inspect]
+        puts '--> item: %s  prev: %s  next: %s' % [item.inspect, item.prev_item.inspect, item.next_item.inspect]
 
-        append_to_list = false
+        append_dup = false
 
         case item
         when Number
           if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
             # skip
           else
-            append_to_list = true
+            append_dup = true
           end
         when Range
           if item.prev_item.is_a?(Number) && item.next_item.is_a?(Number)
-            curr_item = item.dup
-            curr_item.left_item = item.prev_item.dup
-            curr_item.right_item = item.next_item.dup
+            curr_item_f = -> (curr_item){
+              curr_item.left_item = item.prev_item.dup
+              curr_item.right_item = item.next_item.dup
+            }
+
+            append_dup = true
+          else
+            raise 'Invalid Range: %s %s' % [
+              item.prev_item.inspect,
+              item.next_item.inspect,
+            ]
+          end
+        when Operator
+          if prev_item.is_a?(Number)
+            curr_item = prev_item.dup
+            pp curr_item.inc
             if !prev_item.nil?
+              puts '--> chain'
               prev_item.chain(curr_item)
             end
             items3.push(curr_item)
             prev_item = curr_item
-          else
-            raise 'Invalid Range: %s %s' % [item.prev_item.inspect, item.next_item.inspect]
           end
         else
           # puts '--> L3 ELSE'
-          append_to_list = true
+          append_dup = true
         end
 
-        if append_to_list
+        if append_dup
           curr_item = item.dup
+          if !curr_item_f.nil?
+            curr_item_f.call(curr_item)
+            curr_item_f = nil
+          end
           if !prev_item.nil?
             prev_item.chain(curr_item)
           end
@@ -140,7 +157,7 @@ module Lexer
       puts '-> Lexer.resolve L4 [convert to int]'
       items4 = []
       items3.each do |item|
-        puts '--> item: %s' % [item.class]
+        puts '--> item: %s' % [item.inspect]
 
         case item
         when Number

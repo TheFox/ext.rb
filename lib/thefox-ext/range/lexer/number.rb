@@ -23,6 +23,10 @@ module Lexer
     def append(char)
       @char += char
     end
+
+    def inc()
+      @char = @char[0..-2] + (@char[-1].ord + 1).chr
+    end
   end # Range
 end # Lexer
 end # Range
