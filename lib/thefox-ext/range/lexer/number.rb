@@ -8,6 +8,7 @@ module Lexer
   class Number < Base
     def initialize(char)
       super()
+      puts '-> Number.initialize(%s)' % [char]
       @char = char
     end
 
@@ -17,6 +18,10 @@ module Lexer
 
     def char()
       @char
+    end
+
+    def append(char)
+      @char += char
     end
   end # Range
 end # Lexer

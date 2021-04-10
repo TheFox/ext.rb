@@ -9,6 +9,7 @@ module Lexer
       puts '-> Block.initialize(%d)' % [level]
       @level = level
     end
+
     def inspect()
       'Block(%d)' % [@level]
     end
