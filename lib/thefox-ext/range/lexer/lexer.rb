@@ -136,19 +136,23 @@ module Lexer
 
       pp items3.map{ |item| item.inspect }
 
-      # puts
-      # puts '-> Lexer.resolve L4 [convert to int]'
-      # items4 = []
-      # items3.each do |item|
-      #   puts '--> item: %s' % [item.class]
+      puts
+      puts '-> Lexer.resolve L4 [convert to int]'
+      items4 = []
+      items3.each do |item|
+        puts '--> item: %s' % [item.class]
 
-      #   case item
-      #   when Number
-      #     items4.push(item.char.to_i)
-      #   end
-      # end
+        case item
+        when Number
+          items4.push(item.char.to_i)
+        when Range
+          r_begin = item.left_item.char.to_i
+          r_end = item.right_item.char.to_i
+          items4.push(*::Range.new(r_begin, r_end).to_a)
+        end
+      end
 
-      # pp items4
+      pp items4
 
     end
   end # Lexer
