@@ -34,8 +34,8 @@ module Lexer
             BlockUp.new(org_level)
           when '+'
             Operator.new()
-          when '-'
-            Range.new()
+          when '-', '.'
+            Range.new(char)
           when '0'..'9'
             Number.new(char)
           else
@@ -59,6 +59,8 @@ module Lexer
       items1.each do |item|
         # puts '--> L2 item: %s' % [item.inspect]
 
+        append_dup = false
+
         case item
         when Number
           if curr_item.nil?
@@ -77,9 +79,19 @@ module Lexer
               raise 'Do not know what to do'
             end
           end
+        when Range
+          if prev_item.is_a?(Range) && prev_item.symbole == '.' && item.symbole == '.'
+            # skip
+          else
+            append_dup = true
+          end
         else
           # puts '--> L2 ELSE'
 
+          append_dup = true
+        end
+
+        if append_dup
           curr_item = item.dup
           if !prev_item.nil?
             prev_item.chain(curr_item)

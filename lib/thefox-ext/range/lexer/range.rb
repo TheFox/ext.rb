@@ -4,9 +4,9 @@ module Range
 module Lexer
   # -
   class Range < Base
-    def initialize()
-      super()
-      # puts '-> Range.initialize'
+    def initialize(symbole)
+      super(symbole)
+      # puts '-> Range.initialize(%s)' % [symbole]
 
       @left_item = nil
       @right_item = nil
@@ -29,9 +29,9 @@ module Lexer
     # :nocov:
     def inspect()
       if !@left_item.nil? && !@right_item.nil?
-        'Range(%s, %s)' % [@left_item.inspect, @right_item.inspect]
+        'Range(%s, %s, %s)' % [@symbole, @left_item.inspect, @right_item.inspect]
       else
-        'Range()'
+        'Range(%s)' % [@symbole]
       end
     end
     # :nocov:

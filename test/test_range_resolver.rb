@@ -35,6 +35,16 @@ class TestRangeResolver < MiniTest::Test
     assert_equal((99..101).to_a, rr.to_a)
   end
 
+  def test_range_resolver_range3a
+    rr = TheFox::Range::Resolver.new('99.101')
+    assert_equal((99..101).to_a, rr.to_a)
+  end
+
+  def test_range_resolver_range3b
+    rr = TheFox::Range::Resolver.new('99..101')
+    assert_equal((99..101).to_a, rr.to_a)
+  end
+
   def test_range_resolver_range_inc
     rr = TheFox::Range::Resolver.new('99+,999++')
     assert_equal([99, 100, 999, 1000, 1001], rr.to_a)
@@ -83,6 +93,11 @@ class TestRangeResolver < MiniTest::Test
   def test_range_resolver_block9
     rr = TheFox::Range::Resolver.new('1{02,03{1-3}},2{3+}')
     assert_equal([102, 1031, 1032, 1033, 23, 24], rr.to_a)
+  end
+
+  def test_range_resolver_block10
+    rr = TheFox::Range::Resolver.new('1{02,03{1-3,4..6}},2{3+}')
+    assert_equal([102, 1031, 1032, 1033, 1034, 1035, 1036, 23, 24], rr.to_a)
   end
 
 end

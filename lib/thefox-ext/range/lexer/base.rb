@@ -3,8 +3,9 @@ module TheFox
 module Range
 module Lexer
   class Base
-    def initialize()
+    def initialize(symbole = nil)
       # puts '-> Base.initialize'
+      @symbole = symbole
       @prev_item = nil
       @next_item = nil
 
@@ -15,6 +16,10 @@ module Lexer
     def chain(item)
       self.next_item = item
       item.prev_item = self
+    end
+
+    def symbole()
+      @symbole
     end
 
     def prev_item()
