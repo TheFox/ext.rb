@@ -80,9 +80,14 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([12, 134, 135, 136], rr.to_a)
   end
 
-  def test_range_resolver_block_subblocks_ranges
+  def test_range_resolver_block_subblocks_ranges1
     rr = TheFox::Range::Resolver.new('1{2,3{4-7}}')
     assert_equal([12, 134, 135, 136, 137], rr.to_a)
+  end
+
+  def test_range_resolver_block_subblocks_ranges2
+    rr = TheFox::Range::Resolver.new('2{3{4,5},6}')
+    assert_equal([234, 235, 26], rr.to_a)
   end
 
   def test_range_resolver_block_correct_prefix_simple
