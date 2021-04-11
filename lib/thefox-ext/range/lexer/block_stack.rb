@@ -7,13 +7,15 @@ module Lexer
   # 0123456789
   class BlockStack
     def initialize()
-      puts '-> BlockStack.initialize()'
+      # puts '-> BlockStack.initialize()'
       @stack = []
     end
 
+    # :nocov:
     def inspect()
       'BlockStack(%d)' % [@stack.length]
     end
+    # :nocov:
 
     def push(item)
       @stack.push(item)
@@ -21,10 +23,6 @@ module Lexer
 
     def pop()
       @stack.pop
-    end
-
-    def last()
-      @stack.last
     end
 
     def curr()

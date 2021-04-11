@@ -6,14 +6,14 @@ module Range
 module Lexer
   class Lexer
     def initialize(chars)
-      puts '-> Lexer.initialize'
+      # puts '-> Lexer.initialize'
       @chars = chars
-      pp @chars
+      # pp @chars
     end
 
     def resolve()
-      puts
-      puts '-> Lexer.resolve L1'
+      # puts
+      # puts '-> Lexer.resolve L1'
 
       position = 0
       prev_item = nil
@@ -42,10 +42,6 @@ module Lexer
             raise 'Unknown character at position %d: %s' % [position, char]
           end
 
-        if curr_item.nil?
-          next
-        end
-
         if !prev_item.nil?
           prev_item.chain(curr_item)
         end
@@ -55,13 +51,13 @@ module Lexer
 
       # pp items1.map{ |item| item.inspect }
 
-      puts
-      puts '-> Lexer.resolve L2'
+      # puts
+      # puts '-> Lexer.resolve L2'
       curr_item = nil
       prev_item = nil
       items2 = []
       items1.each do |item|
-        puts '--> L2 item: %s' % [item.inspect]
+        # puts '--> L2 item: %s' % [item.inspect]
 
         case item
         when Number
@@ -97,15 +93,15 @@ module Lexer
 
       # pp items2.map{ |item| item.inspect }
 
-      puts
-      puts '-> Lexer.resolve L3'
+      # puts
+      # puts '-> Lexer.resolve L3'
       append_dub_f = nil
       append_prev_f = nil
       prev_item = nil
       block_stack = BlockStack.new
       items3 = []
       items2.each do |item|
-        puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
+        # puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
 
         append_dup = false
         append_prev = false
@@ -169,7 +165,7 @@ module Lexer
           end
           # Block
           if !item.is_a?(Block)
-            puts '---> set Parent: %s' % [block_stack.curr.inspect]
+            # puts '---> set Parent: %s' % [block_stack.curr.inspect]
             curr_item.parent_item = block_stack.curr
             block_stack.add_child(curr_item)
           end
@@ -211,11 +207,11 @@ module Lexer
 
       # pp items3.map{ |item| item.inspect }
 
-      puts
-      puts '-> Lexer.resolve L4 [convert to int]'
+      # puts
+      # puts '-> Lexer.resolve L4 [convert to int]'
       items4 = []
       items3.each do |item|
-        puts '--> L4  %20s   %20s   c: %d' % [item.inspect, item.parent_item.inspect, item.children.length]
+        # puts '--> L4  %20s   %20s   c: %d' % [item.inspect, item.parent_item.inspect, item.children.length]
 
         case item
         when Number
@@ -252,8 +248,8 @@ module Lexer
         end
       end
 
-      pp items4
-
+      # pp items4
+      items4
     end
   end # Lexer
 end # Lexer

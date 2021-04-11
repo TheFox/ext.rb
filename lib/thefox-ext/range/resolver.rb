@@ -8,12 +8,12 @@ module Range
   # Which will be resolved to [1, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].
   class Resolver
     def initialize(original = nil)
-      puts '-> TheFox::Range::Resolver.initialize'
+      # puts '-> TheFox::Range::Resolver.initialize'
       @original = original
     end
 
     def to_a
-      puts '-> TheFox::Range::Resolver.to_a'
+      # puts '-> TheFox::Range::Resolver.to_a'
 
       if @original.is_a?(String)
         lexer = Lexer::Lexer.new(@original.split(''))
