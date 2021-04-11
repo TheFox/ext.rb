@@ -15,12 +15,22 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([], rr.to_a)
   end
 
-  def test_range_resolver_number
+  def test_range_resolver_number1
+    rr = TheFox::Range::Resolver.new('1')
+    assert_equal([1], rr.to_a)
+  end
+
+  def test_range_resolver_number2
     rr = TheFox::Range::Resolver.new('123')
     assert_equal([123], rr.to_a)
   end
 
-  def test_range_resolver_numbers
+  def test_range_resolver_numbers1
+    rr = TheFox::Range::Resolver.new('1,2')
+    assert_equal([1, 2], rr.to_a)
+  end
+
+  def test_range_resolver_numbers2
     rr = TheFox::Range::Resolver.new('123,456')
     assert_equal([123, 456], rr.to_a)
   end
@@ -50,52 +60,52 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([99, 100, 999, 1000, 1001], rr.to_a)
   end
 
-  def test_range_resolver_block1
+  def test_range_resolver_block_simple
     rr = TheFox::Range::Resolver.new('1{2}')
     assert_equal([12], rr.to_a)
   end
 
-  def test_range_resolver_block2
+  def test_range_resolver_block_subblocks_simple1
     rr = TheFox::Range::Resolver.new('1{2{3}}')
     assert_equal([123], rr.to_a)
   end
 
-  def test_range_resolver_block3
+  def test_range_resolver_block_subblocks_simple2
     rr = TheFox::Range::Resolver.new('1{2,3{4}}')
     assert_equal([12, 134], rr.to_a)
   end
 
-  def test_range_resolver_block4
+  def test_range_resolver_block_subblocks_list
     rr = TheFox::Range::Resolver.new('1{2,3{4,5,6}}')
     assert_equal([12, 134, 135, 136], rr.to_a)
   end
 
-  def test_range_resolver_block5
+  def test_range_resolver_block_subblocks_ranges
     rr = TheFox::Range::Resolver.new('1{2,3{4-7}}')
     assert_equal([12, 134, 135, 136, 137], rr.to_a)
   end
 
-  def test_range_resolver_block6
-    rr = TheFox::Range::Resolver.new('1{02}')
-    assert_equal([102], rr.to_a)
+  def test_range_resolver_block_correct_prefix_simple
+    rr = TheFox::Range::Resolver.new('1{1,02}')
+    assert_equal([11, 102], rr.to_a)
   end
 
-  def test_range_resolver_block7
+  def test_range_resolver_block_correct_prefix_ranges1
     rr = TheFox::Range::Resolver.new('1{02,03{1-3}}')
     assert_equal([102, 1031, 1032, 1033], rr.to_a)
   end
 
-  def test_range_resolver_block8
+  def test_range_resolver_block_correct_prefix_multiple
     rr = TheFox::Range::Resolver.new('1{02},3{04}')
     assert_equal([102, 304], rr.to_a)
   end
 
-  def test_range_resolver_block9
+  def test_range_resolver_block_correct_prefix_ranges2
     rr = TheFox::Range::Resolver.new('1{02,03{1-3}},2{3+}')
     assert_equal([102, 1031, 1032, 1033, 23, 24], rr.to_a)
   end
 
-  def test_range_resolver_block10
+  def test_range_resolver_block_correct_prefix_complex
     rr = TheFox::Range::Resolver.new('1{02,03{1-3,4..6}},2{3+}')
     assert_equal([102, 1031, 1032, 1033, 1034, 1035, 1036, 23, 24], rr.to_a)
   end
