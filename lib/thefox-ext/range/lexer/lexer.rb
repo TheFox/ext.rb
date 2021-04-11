@@ -36,6 +36,8 @@ module Lexer
             Operator.new()
           when '-', '.'
             Range.new(char)
+          when '/'
+            Interval.new()
           when '0'..'9'
             Number.new(char)
           else
@@ -105,22 +107,22 @@ module Lexer
 
       # pp items2.map{ |item| item.inspect }
 
-      # puts
-      # puts '-> Lexer.resolve L3'
+      puts
+      puts '-> Lexer.resolve L3'
       append_dub_f = nil
       append_prev_f = nil
       prev_item = nil
       block_stack = BlockStack.new
       items3 = []
       items2.each do |item|
-        # puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
+        puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
 
         append_dup = false
         append_prev = false
 
         case item
         when Number
-          if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
+          if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range) || item.prev_item.is_a?(Interval)
             # skip
           else
             append_dup = true
@@ -145,6 +147,13 @@ module Lexer
               item.next_item.inspect,
             ]
           end
+        when Interval
+          if !item.next_item.is_a?(Number)
+            raise 'Invalid Interval: %s' % [item.next_item.inspect]
+          end
+
+          append_dub_f = ->(curr_item){ curr_item.number = item.next_item.dup }
+          append_dup = true
         when Operator
           if prev_item.is_a?(Number)
             append_prev_f = -> (curr_item){ curr_item.inc }
@@ -217,7 +226,7 @@ module Lexer
         end
       end
 
-      # pp items3.map{ |item| item.inspect }
+      pp items3.map{ |item| item.inspect }
 
       # puts
       # puts '-> Lexer.resolve L4 [convert to int]'
@@ -236,7 +245,27 @@ module Lexer
         when Range
           r_begin = item.left_item.char.to_i
           r_end = item.right_item.char.to_i
-          items4.push(*::Range.new(r_begin, r_end).to_a)
+          r = ::Range.new(r_begin, r_end)
+
+          if item.next_item.is_a?(Interval)
+            # Interval Range
+            n = item.next_item.number.char.to_i
+            c = 0
+            r.each do |i|
+              if c == 0
+                items4.push(i)
+              end
+              c += 1
+              if c == n
+                c = 0
+              end
+            end
+          else
+            # Normal Range
+            items4.push(*r.to_a)
+          end
+        when Interval
+          puts '---> skip Interval'
         when Separator
           # puts '---> skip Separator'
         when Block

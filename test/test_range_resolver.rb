@@ -120,4 +120,24 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([10002, 10003, 10004, 3], rr.to_a)
   end
 
+  def test_range_resolver_interval1
+    rr = TheFox::Range::Resolver.new('1-3/1')
+    assert_equal([1, 2, 3], rr.to_a)
+  end
+
+  def test_range_resolver_interval2
+    rr = TheFox::Range::Resolver.new('1-10/2')
+    assert_equal([1, 3, 5, 7, 9], rr.to_a)
+  end
+
+  def test_range_resolver_interval_block1
+    rr = TheFox::Range::Resolver.new('1{1-3/2}')
+    assert_equal([11, 13], rr.to_a)
+  end
+
+  def test_range_resolver_interval_block2
+    rr = TheFox::Range::Resolver.new('2{10-20/2}')
+    assert_equal([210, 212, 214, 216, 218, 220], rr.to_a)
+  end
+
 end
