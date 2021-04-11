@@ -9,7 +9,7 @@ module Lexer
       @next_item = nil
 
       @parent_item = nil
-      # @children = []
+      @children = []
     end
 
     def chain(item)
@@ -37,13 +37,19 @@ module Lexer
     def parent_item=(parent_item)
       @parent_item = parent_item
     end
+    def has_parent_item()
+      !@parent_item.nil?
+    end
 
-    # def children()
-    #   @children
-    # end
-    # def add_child(child)
-    #   @children.push(child)
-    # end
+    def children()
+      @children
+    end
+    def add_child(child)
+      @children.push(child)
+    end
+    def has_children()
+      @children.length > 1
+    end
 
     def dup()
       # puts '-> Base.dup'

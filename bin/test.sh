@@ -10,4 +10,5 @@ which bundler &> /dev/null || { echo 'ERROR: bundler not found in PATH'; exit 1;
 
 cd "${SCRIPT_BASEDIR}/.."
 
+echo 'run tests'
 bundler exec ./test/suite_all.rb $*

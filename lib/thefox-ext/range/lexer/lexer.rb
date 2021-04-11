@@ -53,7 +53,7 @@ module Lexer
         prev_item = curr_item
       end
 
-      pp items1.map{ |item| item.inspect }
+      # pp items1.map{ |item| item.inspect }
 
       puts
       puts '-> Lexer.resolve L2'
@@ -95,17 +95,17 @@ module Lexer
         end
       end
 
-      pp items2.map{ |item| item.inspect }
+      # pp items2.map{ |item| item.inspect }
 
       puts
       puts '-> Lexer.resolve L3'
       append_dub_f = nil
       append_prev_f = nil
       prev_item = nil
-      block_stack = []
+      block_stack = BlockStack.new
       items3 = []
       items2.each do |item|
-        puts '--> L3 item: %20s  bs=%d' % [item.inspect, block_stack.length]
+        puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
 
         append_dup = false
         append_prev = false
@@ -123,6 +123,12 @@ module Lexer
             append_dub_f = -> (curr_item){
               curr_item.left_item = item.prev_item.dup
               curr_item.right_item = item.next_item.dup
+
+              curr_item.left_item.parent_item = block_stack.curr
+              curr_item.right_item.parent_item = block_stack.curr
+
+              block_stack.add_child(curr_item.left_item)
+              block_stack.add_child(curr_item.right_item)
             }
             append_dup = true
           else
@@ -137,7 +143,8 @@ module Lexer
             append_prev = true
           end
         when BlockDown
-          block_stack.push(item)
+          #block_stack.push(item.dup)
+          append_dub_f = ->(curr_item){ block_stack.push(curr_item) }
           append_dup = true
         when BlockUp
           block_stack.pop
@@ -162,7 +169,9 @@ module Lexer
           end
           # Block
           if !item.is_a?(Block)
-            curr_item.parent_item = block_stack.last
+            puts '---> set Parent: %s' % [block_stack.curr.inspect]
+            curr_item.parent_item = block_stack.curr
+            block_stack.add_child(curr_item)
           end
           # Append
           items3.push(curr_item)
@@ -183,7 +192,8 @@ module Lexer
           prev_item.chain(curr_item)
           # Block
           if !item.is_a?(Block)
-            curr_item.parent_item = block_stack.last
+            curr_item.parent_item = block_stack.curr
+            block_stack.add_child(curr_item)
           end
           # Append
           items3.push(curr_item)
@@ -193,32 +203,50 @@ module Lexer
 
         # Block
         if item.is_a?(Block)
-          puts '--> L3 set parent block for block'
-          item.parent_item = block_stack.last
+          # puts '--> L3 set parent block for block'
+          item.parent_item = block_stack.curr
+          block_stack.add_child(item)
         end
       end
 
-      pp items3.map{ |item| item.inspect }
+      # pp items3.map{ |item| item.inspect }
 
       puts
       puts '-> Lexer.resolve L4 [convert to int]'
       items4 = []
       items3.each do |item|
-        puts '--> L4 item: %20s   parent: %s' % [item.inspect, item.parent_item.inspect]
+        puts '--> L4  %20s   %20s   c: %d' % [item.inspect, item.parent_item.inspect, item.children.length]
 
         case item
         when Number
           # TODO handle Block here
-          items4.push(item.char.to_i)
+          # if item.has_parent_item
+          #   puts '---> Item has Parent: %s' % [item.char]
+          # else
+          #   items4.push(item.char.to_i)
+          # end
+          if item.next_item.is_a?(BlockDown)
+            # skip
+            # puts '---> skip'
+          else
+            items4.push(item.char.to_i)
+          end
         when Range
           # TODO handle Block here
+          # if item.has_parent_item
+          #   puts '---> Range Number has Parent: %s %s' % [
+          #     item.left_item.char,
+          #     item.right_item.char,
+          #   ]
+          # end
+
           r_begin = item.left_item.char.to_i
           r_end = item.right_item.char.to_i
           items4.push(*::Range.new(r_begin, r_end).to_a)
         when Separator
-          puts '---> skip Separator'
+          # puts '---> skip Separator'
         when Block
-          puts '---> skip Block'
+          # puts '---> skip Block'
         else
           raise 'Implementation missing for: %s' % [item.inspect]
         end

@@ -13,11 +13,31 @@ module Lexer
     end
 
     def inspect()
-      'Number(%s)' % [@char]
+      'Number(%s,^%s)' % [@char, @parent_item.inspect]
     end
 
     def char()
-      @char
+      puts '-> %s.char' % [self.inspect]
+      if self.has_parent_item
+        puts '-> %s.char has parent' % [self.inspect]
+        if self.parent_item.is_a?(Block)
+          puts '-> %s.char parent is a %s' % [self.inspect, self.parent_item.inspect]
+          if self.parent_item.prev_item.is_a?(Number)
+            puts '-> %s.char parent Prev is a %s' % [self.inspect, self.parent_item.prev_item.inspect]
+            '%s%s' % [self.parent_item.prev_item.char, @char]
+          else
+            raise 'Parent Prev item for %s is not a Block: %s' % [
+              self.inspect,
+              self.parent_item.prev_item.inspect,
+            ]
+          end
+        else
+          raise 'Parent item for %s is not a Block: %s' % [self.inspect, self.parent_item.inspect]
+        end
+      else
+        puts '-> %s.char char' % [self.inspect]
+        @char
+      end
     end
 
     def append(char)
@@ -33,7 +53,7 @@ module Lexer
       f = '%%0%dd' % [@char.length]
       @char = f % [@char.to_i - 1]
     end
-  end # Range
+  end # Number
 end # Lexer
 end # Range
 end # TheFox

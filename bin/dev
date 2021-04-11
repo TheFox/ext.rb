@@ -4,6 +4,6 @@
 require 'thefox-ext'
 require 'pp'
 
-s = '1{2,3{4,5}}'
+s = '1{2{3}}'
 rr = TheFox::Range::Resolver.new(s)
 rr.to_a
