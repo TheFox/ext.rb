@@ -215,12 +215,6 @@ module Lexer
 
         case item
         when Number
-          # TODO handle Block here
-          # if item.has_parent_item
-          #   puts '---> Item has Parent: %s' % [item.char]
-          # else
-          #   items4.push(item.char.to_i)
-          # end
           if item.next_item.is_a?(BlockDown)
             # skip
             # puts '---> skip'
@@ -228,14 +222,6 @@ module Lexer
             items4.push(item.char.to_i)
           end
         when Range
-          # TODO handle Block here
-          # if item.has_parent_item
-          #   puts '---> Range Number has Parent: %s %s' % [
-          #     item.left_item.char,
-          #     item.right_item.char,
-          #   ]
-          # end
-
           r_begin = item.left_item.char.to_i
           r_end = item.right_item.char.to_i
           items4.push(*::Range.new(r_begin, r_end).to_a)
