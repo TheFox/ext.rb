@@ -2,11 +2,10 @@
 module TheFox
 module Range
 module Lexer2
-  class Scope
+  class Scope < Collection
     def initialize(items = nil, level = 0)
-      @items = items.nil? ? [] : items
+      super(items)
       @level = level
-      @curr_item = nil
       puts '-> %s.initialize()' % [self.name]
     end
 
@@ -24,18 +23,6 @@ module Lexer2
     end
     # :nocov:
 
-    def add_item(item)
-      @items.push(item)
-      if !@curr_item.nil?
-        item.chain(@curr_item)
-      end
-      @curr_item = item
-    end
-
-    def items()
-      @items
-    end
-
     def resolve()
       puts '-> %s.resolve(%d)' % [self.name, @level]
 
@@ -49,7 +36,7 @@ module Lexer2
           puts '--> next scope'
           scopes.push(Scope.new(nil, @level + 1))
         else
-          scopes.last.add_item(item.dup)
+          scopes.last.add_item(item)
         end
       end
 
@@ -65,15 +52,29 @@ module Lexer2
         end
         resolved
       else
+        puts
         puts '--> resolve items'
-        items1 = []
+        item_collection1 = Collection.new
         scopes.last.items.each do |item|
           puts '--> sub Item: %s' % [item.inspect]
+
           case item
           when Range
-          end
-        end
-        items1
+            if item.prev_item.is_a?(Number) && item.next_item.is_a?(Number)
+              puts '--> Range normal'
+            else
+              raise 'Invalid Range: %s %s' % [
+                item.prev_item.inspect,
+                item.next_item.inspect,
+              ]
+            end
+          end # case item
+        end # scopes.last.items.each
+
+        # puts '-> Lexer2.resolve L3 Items'
+        # pp item_collection1.items.map{ |item| item.inspect }
+
+        nil
       end
     end
   end # Scope

@@ -4,6 +4,6 @@
 require 'thefox-ext'
 require 'pp'
 
-s = '1,2,5-7'
+s = '12,34'
 rr = TheFox::Range::Resolver2.new(s)
 pp rr.to_a

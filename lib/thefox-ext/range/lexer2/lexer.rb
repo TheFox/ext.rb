@@ -14,13 +14,9 @@ module Lexer2
       puts
       puts '-> Lexer2.resolve L1 [Create Object for each character]'
 
-      position = 0
-      prev_item = nil
-      block_level = 0
-      items1 = []
+      block_level = BlockLevel.new
+      item_collection1 = Collection.new
       @chars.each do |char|
-        position += 1
-
         curr_item = case char
           when ' '
             # Skip space
@@ -29,12 +25,11 @@ module Lexer2
           when ',', "\n"
             Separator.new()
           # when '{'
-          #   block_level += 1
+          #   block_level.inc
           #   BlockDown.new(block_level)
           # when '}'
-          #   org_level = block_level
-          #   block_level -= 1
           #   BlockUp.new(org_level)
+          #   block_level.dec
           # when '+'
           #   Operator.new()
           when '-', '.'
@@ -44,76 +39,42 @@ module Lexer2
           when '0'..'9'
             Number.new(char)
           else
-            raise 'Unknown character at position %d: "%s" (%d)' % [position, char, char.ord]
+            raise 'Unknown character at position %d: "%s" (%d)' % [
+              item_collection1.items.length + 1, char, char.ord
+            ]
           end
 
-        if !prev_item.nil?
-          prev_item.chain(curr_item)
-        end
-        items1.push(curr_item)
-        prev_item = curr_item
+        item_collection1.push(curr_item)
       end
 
       puts '-> Lexer2.resolve L1 Items'
-      pp items1.map{ |item| item.inspect }
+      pp item_collection1.items.map{ |item| item.inspect }
 
       puts
       puts '-> Lexer2.resolve L2 [Append Number]'
-      curr_item = nil
-      prev_item = nil
-      items2 = []
-      items1.each do |item|
-        # puts '--> L2 item: %s' % [item.inspect]
-
-        append_dup = false
+      item_collection2 = Collection.new
+      item_collection1.items.each do |item|
+        puts '--> L2 item: %s' % [item.inspect]
 
         case item
         when Number
-          if curr_item.nil?
-            # New Number
-            curr_item = item.dup
-            if !prev_item.nil?
-              prev_item.chain(curr_item)
-            end
-            items2.push(curr_item)
-            prev_item = curr_item
+          if item_collection2.curr.is_a?(Number)
+            item_collection2.curr.append(item)
           else
-            # Append Number
-            if curr_item.is_a?(Number)
-              curr_item.append(item.char)
-            else
-              raise 'Do not know what to do'
-            end
-          end
-        when Range
-          if prev_item.is_a?(Range) && prev_item.symbole == '.' && item.symbole == '.'
-            # skip
-          else
-            append_dup = true
+            item_collection2.push(item)
           end
         else
-          # puts '--> L2 ELSE'
+          puts '--> L2 ELSE'
+          item_collection2.push(item)
+        end # case item
 
-          append_dup = true
-        end
-
-        if append_dup
-          curr_item = item.dup
-          if !prev_item.nil?
-            prev_item.chain(curr_item)
-          end
-          items2.push(curr_item)
-          prev_item = curr_item
-
-          curr_item = nil
-        end
-      end
+      end # item_collection1.items
 
       puts '-> Lexer2.resolve L2 Items'
-      pp items2.map{ |item| item.inspect }
+      pp item_collection2.items.map{ |item| item.inspect }
 
       puts
-      scope = Scope.new(items2)
+      scope = Scope.new(item_collection2.items)
       scope.resolve
     end
   end # Lexer

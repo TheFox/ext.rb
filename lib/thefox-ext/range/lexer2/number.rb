@@ -14,7 +14,8 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      'Number(%s,^%s)' % [@char, @parent_item.inspect]
+      'Number(%s)' % [@char]
+      # 'Number(%s,^%s)' % [@char, @parent_item.inspect]
     end
     # :nocov:
 
@@ -42,8 +43,12 @@ module Lexer2
       end
     end
 
-    def append(char)
-      @char += char
+    def append(obj)
+      if obj.is_a?(Number)
+        self.append(obj.char)
+      else
+        @char += obj
+      end
     end
 
     def inc()

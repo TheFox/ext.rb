@@ -14,9 +14,11 @@ module Lexer2
       @children = []
     end
 
-    def chain(item)
-      self.next_item = item
-      item.prev_item = self
+    def chain(prev_item)
+      self.prev_item = prev_item
+      if !prev_item.nil?
+        prev_item.next_item = self
+      end
     end
 
     def symbole()

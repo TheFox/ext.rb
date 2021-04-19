@@ -29,6 +29,8 @@ require 'thefox-ext/range/lexer/number'
 # Resolver2
 require 'thefox-ext/range/resolver2'
 require 'thefox-ext/range/lexer2/lexer'
+require 'thefox-ext/range/lexer2/collection'
+require 'thefox-ext/range/lexer2/block_level'
 require 'thefox-ext/range/lexer2/base'
 require 'thefox-ext/range/lexer2/scope'
 require 'thefox-ext/range/lexer2/number'
