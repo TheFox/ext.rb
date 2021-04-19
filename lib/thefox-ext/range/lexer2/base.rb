@@ -1,10 +1,10 @@
 
 module TheFox
 module Range
-module Lexer
+module Lexer2
   class Base
     def initialize(symbole = nil)
-      puts '-> Base.initialize'
+      # puts '-> Base.initialize'
 
       @symbole = symbole
       @prev_item = nil

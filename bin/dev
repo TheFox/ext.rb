@@ -4,7 +4,6 @@
 require 'thefox-ext'
 require 'pp'
 
-s = '99-110/4'
-s = '99-110/*'
-rr = TheFox::Range::Resolver.new(s)
+s = '1,2,5-7'
+rr = TheFox::Range::Resolver2.new(s)
 pp rr.to_a

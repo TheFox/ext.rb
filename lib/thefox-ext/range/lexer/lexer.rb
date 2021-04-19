@@ -12,8 +12,8 @@ module Lexer
     end
 
     def resolve()
-      # puts
-      # puts '-> Lexer.resolve L1'
+      puts
+      puts '-> Lexer.resolve L1 [Create Object for each character]'
 
       position = 0
       prev_item = nil
@@ -51,10 +51,11 @@ module Lexer
         prev_item = curr_item
       end
 
-      # pp items1.map{ |item| item.inspect }
+      puts '-> Lexer.resolve L1 Items'
+      pp items1.map{ |item| item.inspect }
 
-      # puts
-      # puts '-> Lexer.resolve L2'
+      puts
+      puts '-> Lexer.resolve L2 [Append Number]'
       curr_item = nil
       prev_item = nil
       items2 = []
@@ -105,17 +106,18 @@ module Lexer
         end
       end
 
-      # pp items2.map{ |item| item.inspect }
+      puts '-> Lexer.resolve L2 Items'
+      pp items2.map{ |item| item.inspect }
 
-      # puts
-      # puts '-> Lexer.resolve L3'
+      puts
+      puts '-> Lexer.resolve L3'
       append_dub_f = nil
       append_prev_f = nil
       prev_item = nil
       block_stack = BlockStack.new
       items3 = []
       items2.each do |item|
-        # puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
+        puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
 
         append_dup = false
         append_prev = false
@@ -226,10 +228,11 @@ module Lexer
         end
       end
 
-      # pp items3.map{ |item| item.inspect }
+      puts '-> Lexer.resolve L3 Items'
+      pp items3.map{ |item| item.inspect }
 
-      # puts
-      # puts '-> Lexer.resolve L4 [convert to int]'
+      puts
+      puts '-> Lexer.resolve L4 [convert to int]'
       items4 = []
       items3.each do |item|
         # puts '--> L4  %20s   %20s   c: %d' % [item.inspect, item.parent_item.inspect, item.children.length]
