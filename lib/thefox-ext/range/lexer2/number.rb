@@ -55,6 +55,11 @@ module Lexer2
       f = '%%0%dd' % [@char.length]
       @char = f % [@char.to_i + 1]
     end
+
+    def resolve()
+      puts '-> Number.resolve(%s)' % [@char]
+      @char.to_i
+    end
   end # Number
 end # Lexer
 end # Range

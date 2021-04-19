@@ -28,7 +28,7 @@ module Range
       puts '-> TheFox::Range::Resolver2.to_a'
 
       lexer = Lexer2::Lexer.new(@original.to_s.split(''))
-      lexer.resolve
+      lexer.resolve.flatten
     end
   end # Resolver
 end # Range

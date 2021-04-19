@@ -36,7 +36,7 @@ module Lexer2
           puts '--> next scope'
           scopes.push(Scope.new(nil, @level + 1))
         else
-          scopes.last.add_item(item)
+          scopes.last.push(item)
         end
       end
 
@@ -53,28 +53,45 @@ module Lexer2
         resolved
       else
         puts
-        puts '--> resolve items'
+        puts '-> Lexer2.resolve L3'
         item_collection1 = Collection.new
         scopes.last.items.each do |item|
           puts '--> sub Item: %s' % [item.inspect]
 
           case item
+          when Number
+            if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
+              # Skip Range
+            else
+              item_collection1.push(item)
+            end
           when Range
             if item.prev_item.is_a?(Number) && item.next_item.is_a?(Number)
               puts '--> Range normal'
+              item_collection1.push(item)
+              item_collection1.curr.left_item = item.prev_item
+              item_collection1.curr.right_item = item.next_item
             else
               raise 'Invalid Range: %s %s' % [
                 item.prev_item.inspect,
                 item.next_item.inspect,
               ]
             end
+          else
+            item_collection1.push(item)
           end # case item
         end # scopes.last.items.each
 
-        # puts '-> Lexer2.resolve L3 Items'
-        # pp item_collection1.items.map{ |item| item.inspect }
+        puts '-> Lexer2.resolve L3 Items'
+        pp item_collection1.items.map{ |item| item.inspect }
 
-        nil
+        puts
+        puts '-> Lexer.resolve L4 [convert to int]'
+        items2 = []
+        item_collection1.items.each do |item|
+          items2.push(item.resolve)
+        end
+        items2
       end
     end
   end # Scope

@@ -66,6 +66,10 @@ module Lexer2
       o.next_item = nil
       o
     end
+
+    def resolve()
+      puts '-> Base.resolve'
+    end
   end # Base
 end # Lexer
 end # Range
