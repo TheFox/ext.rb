@@ -21,7 +21,7 @@ gem install thefox-ext
 or via `Gemfile`:
 
 ```ruby
-gem 'thefox-ext', '~>1.10'
+gem 'thefox-ext', '~>2.0'
 ```
 
 Use it in your sources:
