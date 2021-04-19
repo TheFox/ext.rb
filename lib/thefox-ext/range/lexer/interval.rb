@@ -6,7 +6,7 @@ module TheFox
     class Interval < Base
       def initialize()
         super()
-        puts '-> Interval.initialize()'
+        # puts '-> Interval.initialize()'
         @number = nil
       end
 

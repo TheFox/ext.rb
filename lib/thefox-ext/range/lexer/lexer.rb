@@ -107,15 +107,15 @@ module Lexer
 
       # pp items2.map{ |item| item.inspect }
 
-      puts
-      puts '-> Lexer.resolve L3'
+      # puts
+      # puts '-> Lexer.resolve L3'
       append_dub_f = nil
       append_prev_f = nil
       prev_item = nil
       block_stack = BlockStack.new
       items3 = []
       items2.each do |item|
-        puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
+        # puts '--> L3  %20s  bs=%d' % [item.inspect, block_stack.length]
 
         append_dup = false
         append_prev = false
@@ -265,7 +265,7 @@ module Lexer
             items4.push(*r.to_a)
           end
         when Interval
-          puts '---> skip Interval'
+          # puts '---> skip Interval'
         when Separator
           # puts '---> skip Separator'
         when Block
