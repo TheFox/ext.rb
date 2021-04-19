@@ -226,7 +226,7 @@ module Lexer
         end
       end
 
-      pp items3.map{ |item| item.inspect }
+      # pp items3.map{ |item| item.inspect }
 
       # puts
       # puts '-> Lexer.resolve L4 [convert to int]'
