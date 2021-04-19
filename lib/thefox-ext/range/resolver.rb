@@ -15,6 +15,9 @@ module Range
   # '1{5-7}' -> [15, 16, 17]
   # '1{1,02}' -> [11, 102]
   # '2{3{4,5},6}' -> [234, 235, 26]
+  # '1-3/1' -> [1, 2, 3]
+  # '1-10/2' -> [1, 3, 5, 7, 9]
+  # '2{10-20/2}' -> [210, 212, 214, 216, 218, 220]
   class Resolver
     def initialize(original = nil)
       # puts '-> TheFox::Range::Resolver.initialize'
