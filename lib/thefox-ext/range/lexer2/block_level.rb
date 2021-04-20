@@ -12,7 +12,7 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      'BlockLevel()'
+      'BlockLevel(%d)' % [@level]
     end
     # :nocov:
 

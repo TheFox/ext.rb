@@ -12,11 +12,7 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      if @number.nil?
-        'Interval()'
-      else
-        'Interval(%s)' % [@number.inspect]
-      end
+      'Interval(%s)' % [@number.inspect]
     end
     # :nocov:
 

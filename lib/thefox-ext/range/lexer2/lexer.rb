@@ -26,12 +26,10 @@ module Lexer2
             # Skip
           when ',', "\n"
             Separator.new()
-          # when '{'
-          #   block_level.inc
-          #   BlockDown.new(block_level)
-          # when '}'
-          #   BlockUp.new(org_level)
-          #   block_level.dec
+          when '{'
+            BlockDown.new(block_level)
+          when '}'
+            BlockUp.new(block_level)
           when '+'
             Operator.new()
           when '-', '.'
