@@ -34,8 +34,8 @@ module Lexer2
           #   Operator.new()
           when '-', '.'
             Range.new(char)
-          # when '/'
-          #   Interval.new()
+          when '/'
+            Interval.new()
           when '0'..'9'
             Number.new(char)
           else

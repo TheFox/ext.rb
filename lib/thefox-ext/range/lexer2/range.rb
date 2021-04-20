@@ -10,36 +10,47 @@ module Lexer2
 
       @left_item = nil
       @right_item = nil
+      @interval = nil
     end
 
     # :nocov:
     def inspect()
       if !@left_item.nil? && !@right_item.nil?
-        'Range("%s" %s %s)' % [@symbole, @left_item.inspect, @right_item.inspect]
+        'Range(s=%s l=%s r=%s i=%s)' % [
+          @symbole,
+          @left_item.inspect,
+          @right_item.inspect,
+          @interval.inspect
+        ]
       else
         'Range(%s)' % [@symbole]
       end
     end
     # :nocov:
 
-    # def left_item()
-    #   @left_item
-    # end
     def left_item=(left_item)
       @left_item = left_item.dup
     end
 
-    # def right_item()
-    #   @right_item
-    # end
     def right_item=(right_item)
       @right_item = right_item.dup
+    end
+
+    def interval()
+      @interval
+    end
+    def interval=(interval)
+      @interval = interval.dup
     end
 
     def resolve()
       puts '-> %s.resolve()' % [inspect]
       if @left_item.is_a?(Number) && @right_item.is_a?(Number)
-        ::Range.new(@left_item.resolve, @right_item.resolve).to_a
+        r = ::Range.new(@left_item.resolve, @right_item.resolve)
+        if @interval.is_a?(Interval)
+          r = r.step(@interval.resolve)
+        end
+        r.to_a
       end
     end
   end # Range

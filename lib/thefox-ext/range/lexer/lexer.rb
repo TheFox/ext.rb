@@ -149,13 +149,12 @@ module Lexer
               item.next_item.inspect,
             ]
           end
-        when Interval
-          if !item.next_item.is_a?(Number)
-            raise 'Invalid Interval: %s' % [item.next_item.inspect]
-          end
-
-          append_dub_f = ->(curr_item){ curr_item.number = item.next_item.dup }
-          append_dup = true
+        # when Interval
+        #   if !item.next_item.is_a?(Number)
+        #     raise 'Invalid Interval: %s' % [item.next_item.inspect]
+        #   end
+        #   append_dub_f = ->(curr_item){ curr_item.number = item.next_item.dup }
+        #   append_dup = true
         when Operator
           if prev_item.is_a?(Number)
             append_prev_f = -> (curr_item){ curr_item.inc }

@@ -62,6 +62,10 @@ module Lexer2
           when Number
             if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
               # Skip Range
+              puts '--> Skip Range'
+            elsif item.prev_item.is_a?(Interval)
+              # Skip Interval
+              puts '--> Skip Interval'
             else
               item_collection1.push(item)
             end
@@ -71,12 +75,27 @@ module Lexer2
               item_collection1.push(item)
               item_collection1.curr.left_item = item.prev_item
               item_collection1.curr.right_item = item.next_item
+
+              # 1-10/3
+              # item.prev_item                       Number
+              # item                                 Range
+              # item.next_item                       Number
+              # item.next_item.next_item             Interval
+              # item.next_item.next_item.next_item   Number
+
+              interval_item = item.next_item.next_item
+              if interval_item.is_a?(Interval)
+                item_collection1.curr.interval = interval_item
+                item_collection1.curr.interval.number = item.next_item.next_item.next_item
+              end
             else
               raise 'Invalid Range: %s %s' % [
                 item.prev_item.inspect,
                 item.next_item.inspect,
               ]
             end
+          when Interval
+            # Skip
           else
             item_collection1.push(item)
           end # case item
