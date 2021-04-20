@@ -34,7 +34,10 @@ module Lexer2
     end
 
     def push(item)
-      puts '-> Collection.push()'
+      # puts '-> Collection.push(%s)' % [item.inspect]
+      if item.nil?
+        return
+      end
 
       # Prev
       prev_item = @items.last

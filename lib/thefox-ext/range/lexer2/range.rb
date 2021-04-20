@@ -6,7 +6,7 @@ module Lexer2
   class Range < Base
     def initialize(symbole)
       super(symbole)
-      puts '-> Range.initialize(%s)' % [symbole]
+      # puts '-> Range.initialize(%s)' % [symbole]
 
       @left_item = nil
       @right_item = nil
@@ -34,6 +34,9 @@ module Lexer2
 
     def right_item=(right_item)
       @right_item = right_item.dup
+    end
+    def right_item()
+      @right_item
     end
 
     def interval()

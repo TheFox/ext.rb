@@ -16,7 +16,9 @@ module Lexer2
 
       block_level = BlockLevel.new
       item_collection1 = Collection.new
+      position = 0
       @chars.each do |char|
+        position += 1
         curr_item = case char
           when ' '
             # Skip space
@@ -30,8 +32,8 @@ module Lexer2
           # when '}'
           #   BlockUp.new(org_level)
           #   block_level.dec
-          # when '+'
-          #   Operator.new()
+          when '+'
+            Operator.new()
           when '-', '.'
             Range.new(char)
           when '/'
@@ -39,8 +41,8 @@ module Lexer2
           when '0'..'9'
             Number.new(char)
           else
-            raise 'Unknown character at position %d: "%s" (%d)' % [
-              item_collection1.items.length + 1, char, char.ord
+            raise 'Unknown character at position %d: "%s" (ord=%d)' % [
+              position, char, char.ord
             ]
           end
 
@@ -54,7 +56,7 @@ module Lexer2
       puts '-> Lexer2.resolve L2 [Append Number]'
       item_collection2 = Collection.new
       item_collection1.items.each do |item|
-        puts '--> L2 item: %s' % [item.inspect]
+        # puts '--> L2 item: %s' % [item.inspect]
 
         case item
         when Number
@@ -64,7 +66,7 @@ module Lexer2
             item_collection2.push(item)
           end
         else
-          puts '--> L2 ELSE'
+          # puts '--> L2 ELSE'
           item_collection2.push(item)
         end # case item
 
