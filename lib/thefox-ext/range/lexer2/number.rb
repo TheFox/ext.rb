@@ -14,11 +14,14 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      if @parent_item.nil?
-        'Number(%s)' % [@char]
-      else
-        'Number(%s ^%s)' % [@char, @parent_item.inspect]
+      a = [@char]
+      if !@parent_item.nil?
+        a.push('^%s' % @parent_item.inspect)
       end
+      if @children.length > 0
+        a.push('v%d' % @children.length)
+      end
+      'Number(%s)' % [a.join(' ')]
     end
     # :nocov:
 
@@ -46,17 +49,6 @@ module Lexer2
       else
         @char.to_i
       end
-      # if @parent_item.nil? && @children.length == 0
-      #   @char.to_i
-      # elsif @children.length == 0
-      #   '%s_%s' % [@parent_item.resolve(level + 1), @char.to_i]
-      # elsif @parent_item.nil?
-      #   if level > 0
-      #     'C{%d}' % [level]
-      #   end
-      # else
-      #   'x'
-      # end
     end
   end # Number
 end # Lexer

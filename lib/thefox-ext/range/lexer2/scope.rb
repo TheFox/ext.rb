@@ -37,28 +37,28 @@ module Lexer2
       block_stack = Collection.new()
       # curr_block = nil
       @item_collection.items.each do |item|
-        puts '%s-> Item: %s   bs=%s bc=%s' % [' ' * (@level * 2), item.inspect, block_stack.length, block_stack.curr.inspect]
+        puts '%s-> Item: %s' % [' ' * (@level * 2), item.inspect]
 
         push_item = false
 
         case item
         when Separator
           if block_stack.length == 0
-            puts '%s-> next scope, Separator' % [' ' * (@level * 2)]
+            # puts '%s-> next scope, Separator' % [' ' * (@level * 2)]
             scopes.push(Scope.new(nil, @level + 1))
           else
-            puts '%s-> curr scope, Separator' % [' ' * (@level * 2)]
+            # puts '%s-> curr scope, Separator' % [' ' * (@level * 2)]
             push_item = true
           end
         when BlockDown
-          puts '%s-> BlockDown' % [' ' * (@level * 2)]
+          # puts '%s-> BlockDown' % [' ' * (@level * 2)]
           scopes.push(Scope.new(nil, @level + 1))
 
           # Block Stack
           block_stack.push(item)
           # curr_block = item
         when BlockUp
-          puts '%s-> BlockUp' % [' ' * (@level * 2)]
+          # puts '%s-> BlockUp' % [' ' * (@level * 2)]
 
           # Block Stack
           block_stack.pop
@@ -72,11 +72,16 @@ module Lexer2
           #   scopes.curr.curr.parent_item = scopes.prev.curr
           # end
           if !block_stack.curr.nil?
-            puts '%s-> Set Parent: C=%s P=%s' % [
+            puts '%s--> Set Parent: C=%s P=%s' % [
               ' ' * (@level * 2),
               block_stack.curr.inspect,
               block_stack.curr.org_prev_item.inspect,
             ]
+
+            # scopes               Collection
+            # scopes.curr          Scope
+            # scopes.curr.curr     Scope.@item_collection.curr
+
             scopes.curr.curr.parent_item = block_stack.curr.org_prev_item
             scopes.curr.curr.parent_item.add_child(item)
           end
