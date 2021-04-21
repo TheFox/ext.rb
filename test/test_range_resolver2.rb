@@ -15,47 +15,47 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([], rr.to_a)
   end
 
-  # def test_range_resolver_number1
-  #   rr = TheFox::Range::Resolver.new('1')
-  #   assert_equal([1], rr.to_a)
-  # end
+  def test_range_resolver_number1
+    rr = TheFox::Range::Resolver.new('1')
+    assert_equal([1], rr.to_a)
+  end
 
-  # def test_range_resolver_number2
-  #   rr = TheFox::Range::Resolver.new('123')
-  #   assert_equal([123], rr.to_a)
-  # end
+  def test_range_resolver_number2
+    rr = TheFox::Range::Resolver.new('123')
+    assert_equal([123], rr.to_a)
+  end
 
-  # def test_range_resolver_numbers1
-  #   rr = TheFox::Range::Resolver.new('1,2')
-  #   assert_equal([1, 2], rr.to_a)
-  # end
+  def test_range_resolver_numbers1
+    rr = TheFox::Range::Resolver.new('1,2')
+    assert_equal([1, 2], rr.to_a)
+  end
 
-  # def test_range_resolver_numbers2
-  #   rr = TheFox::Range::Resolver.new('123,456')
-  #   assert_equal([123, 456], rr.to_a)
-  # end
+  def test_range_resolver_numbers2
+    rr = TheFox::Range::Resolver.new('123,456')
+    assert_equal([123, 456], rr.to_a)
+  end
 
-  # def test_range_resolver_numbers3
-  #   rr = TheFox::Range::Resolver.new('123,456,456')
-  #   assert_equal([123, 456, 456], rr.to_a)
-  # end
+  def test_range_resolver_numbers3
+    rr = TheFox::Range::Resolver.new('123,456,456')
+    assert_equal([123, 456, 456], rr.to_a)
+  end
 
-  # def test_range_resolver_range1
-  #   rr = TheFox::Range::Resolver.new('123-456')
-  #   assert_equal((123..456).to_a, rr.to_a)
-  # end
+  def test_range_resolver_minus_range1
+    rr = TheFox::Range::Resolver.new('123-456')
+    assert_equal((123..456).to_a, rr.to_a)
+  end
 
-  # def test_range_resolver_range2
-  #   rr = TheFox::Range::Resolver.new('99-101')
-  #   assert_equal((99..101).to_a, rr.to_a)
-  # end
+  def test_range_resolver_minus_range2
+    rr = TheFox::Range::Resolver.new('99-101')
+    assert_equal((99..101).to_a, rr.to_a)
+  end
 
-  # def test_range_resolver_range3a
+  # def test_range_resolver_dot_range1
   #   rr = TheFox::Range::Resolver.new('99.101')
   #   assert_equal((99..101).to_a, rr.to_a)
   # end
 
-  # def test_range_resolver_range3b
+  # def test_range_resolver_dot_range2
   #   rr = TheFox::Range::Resolver.new('99..101')
   #   assert_equal((99..101).to_a, rr.to_a)
   # end

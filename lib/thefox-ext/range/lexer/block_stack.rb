@@ -4,7 +4,6 @@ require 'pp'
 module TheFox
 module Range
 module Lexer
-  # 0123456789
   class BlockStack
     def initialize()
       # puts '-> BlockStack.initialize()'

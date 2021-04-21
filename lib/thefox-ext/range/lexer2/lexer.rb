@@ -11,8 +11,8 @@ module Lexer2
     end
 
     def resolve()
-      puts
-      puts '-> Lexer2.resolve L1 [Create Object for each character]'
+      # puts
+      # puts '-> Lexer2.resolve L1 [Create Object for each character]'
 
       block_level = BlockLevel.new
       item_collection1 = Collection.new
@@ -47,11 +47,11 @@ module Lexer2
         item_collection1.push(curr_item)
       end
 
-      puts '-> Lexer2.resolve L1 Items'
-      pp item_collection1.items.map{ |item| item.inspect }
+      # puts '-> Lexer2.resolve L1 Items'
+      # pp item_collection1.items.map{ |item| item.inspect }
 
-      puts
-      puts '-> Lexer2.resolve L2 [Append Number]'
+      # puts
+      # puts '-> Lexer2.resolve L2 [Append Number]'
       item_collection2 = Collection.new
       item_collection1.items.each do |item|
         # puts '--> L2 item: %s' % [item.inspect]
@@ -70,8 +70,8 @@ module Lexer2
 
       end # item_collection1.items
 
-      puts '-> Lexer2.resolve L2 Items'
-      pp item_collection2.items.map{ |item| item.inspect }
+      # puts '-> Lexer2.resolve L2 Items'
+      # pp item_collection2.items.map{ |item| item.inspect }
 
       puts
       scope = Scope.new(item_collection2.items)

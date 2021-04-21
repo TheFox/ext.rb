@@ -14,33 +14,16 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      'Number(%s)' % [@char]
-      # 'Number(%s,^%s)' % [@char, @parent_item.inspect]
+      if @parent_item.nil?
+        'Number(%s)' % [@char]
+      else
+        'Number(%s ^%s)' % [@char, @parent_item.inspect]
+      end
     end
     # :nocov:
 
-    def char()
-      # puts '-> %s.char' % [self.inspect]
-      if self.has_parent_item
-        # puts '-> %s.char has parent' % [self.inspect]
-        if self.parent_item.is_a?(Block)
-          # puts '-> %s.char parent is a %s' % [self.inspect, self.parent_item.inspect]
-          if self.parent_item.prev_item.is_a?(Number)
-            # puts '-> %s.char parent Prev is a %s' % [self.inspect, self.parent_item.prev_item.inspect]
-            '%s%s' % [self.parent_item.prev_item.char, @char]
-          else
-            raise 'Parent Prev item for %s is not a Block: %s' % [
-              self.inspect,
-              self.parent_item.prev_item.inspect,
-            ]
-          end
-        else
-          raise 'Parent item for %s is not a Block: %s' % [self.inspect, self.parent_item.inspect]
-        end
-      else
-        # puts '-> %s.char char' % [self.inspect]
-        @char
-      end
+    def char
+      @char
     end
 
     def append(obj)
@@ -56,9 +39,24 @@ module Lexer2
       @char = f % [@char.to_i + 1]
     end
 
-    def resolve()
-      puts '-> Number.resolve(%s)' % [@char]
-      @char.to_i
+    def resolve(level = 0)
+      puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
+      if self.has_parent_item
+        '%s_%s' % [@parent_item.resolve(level + 1), @char.to_i]
+      else
+        @char.to_i
+      end
+      # if @parent_item.nil? && @children.length == 0
+      #   @char.to_i
+      # elsif @children.length == 0
+      #   '%s_%s' % [@parent_item.resolve(level + 1), @char.to_i]
+      # elsif @parent_item.nil?
+      #   if level > 0
+      #     'C{%d}' % [level]
+      #   end
+      # else
+      #   'x'
+      # end
     end
   end # Number
 end # Lexer

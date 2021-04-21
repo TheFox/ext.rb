@@ -6,14 +6,17 @@ module Range
 module Lexer2
   class Collection
     def initialize(items = nil)
-      puts '-> Collection.initialize()'
+      # puts '-> Collection.initialize()'
       @items = items.to_a
       @block_level = 0
     end
 
     # :nocov:
     def inspect()
-      'Collection()'
+      'Collection(L=%d %s)' % [
+        @items.length,
+        @items.map{ |i| i.inspect }
+      ]
     end
     # :nocov:
 
@@ -33,13 +36,18 @@ module Lexer2
       @items.length == 0
     end
 
+    def length()
+      @items.length
+    end
+
     def push(item)
-      # puts '-> Collection.push(%s)' % [item.inspect]
+      # puts '-> %s.push(%s)' % [self.inspect, item.inspect]
       if item.nil?
         return
       end
 
       # Prev
+      org_prev_item = item.prev_item
       prev_item = @items.last
 
       # Dup
@@ -48,6 +56,11 @@ module Lexer2
 
       # Chain
       curr_item.chain(prev_item)
+      curr_item.org_prev_item = org_prev_item
+    end
+
+    def pop()
+      @items.pop
     end
   end # Collection
 end # Lexer

@@ -8,13 +8,22 @@ module Lexer2
 
       @symbole = symbole
       @prev_item = nil
+      @org_prev_item = nil
       @next_item = nil
 
+      # @scope = nil
       @parent_item = nil
       @children = []
     end
 
+    # :nocov:
+    def inspect()
+      'Base'
+    end
+    # :nocov:
+
     def chain(prev_item)
+      # puts '%s(%s).chain' % [self.inspect, opts.inspect]
       self.prev_item = prev_item
       if !prev_item.nil?
         prev_item.next_item = self
@@ -23,6 +32,13 @@ module Lexer2
 
     def symbole()
       @symbole
+    end
+
+    def org_prev_item()
+      @org_prev_item
+    end
+    def org_prev_item=(org_prev_item)
+      @org_prev_item = org_prev_item
     end
 
     def prev_item()
@@ -38,6 +54,13 @@ module Lexer2
     def next_item=(next_item)
       @next_item = next_item
     end
+
+    # def scope()
+    #   @scope
+    # end
+    # def scope=(scope)
+    #   @scope = scope
+    # end
 
     def parent_item()
       @parent_item

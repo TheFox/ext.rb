@@ -2,61 +2,103 @@
 module TheFox
 module Range
 module Lexer2
-  class Scope < Collection
+  class Scope < Base
     def initialize(items = nil, level = 0)
-      super(items)
+      @item_collection = Collection.new(items)
       @level = level
-      puts '-> %s.initialize()' % [self.name]
+      puts '%s-> Scope.initialize(%d, %d)' % [' ' * (@level * 2), @item_collection.length, @level]
     end
 
     # :nocov:
-    def name()
-      'Scope(%d)' % [
-        @items.length,
-      ]
-    end
     def inspect()
-      'Scope(%d [%s])' % [
-        @items.length,
-        @items.map{ |item| item.inspect }.join(', '),
-      ]
+      'Scope(%d)' % [@item_collection.length]
     end
     # :nocov:
+
+    def push(item)
+      # item.scope = self
+      @item_collection.push(item)
+    end
+
+    def items()
+      @item_collection.items
+    end
+
+    def curr()
+      @item_collection.curr
+    end
 
     def resolve()
-      puts '-> %s.resolve(%d)' % [self.name, @level]
+      # puts '-> %s.resolve(%d)' % [self.inspect, @level]
 
-      scopes = [Scope.new(nil, @level + 1)]
+      puts '%s-> Lexer2.resolve SL1' % [' ' * (@level * 2)]
 
-      @items.each do |item|
-        puts '--> Item: %s' % [item.inspect]
+      scopes = Collection.new([Scope.new(nil, @level + 1)])
+      block_stack = Collection.new()
+      # curr_block = nil
+      @item_collection.items.each do |item|
+        puts '%s-> Item: %s   bs=%s bc=%s' % [' ' * (@level * 2), item.inspect, block_stack.length, block_stack.curr.inspect]
+
+        push_item = false
 
         case item
         when Separator
-          puts '--> next scope'
+          if block_stack.length == 0
+            puts '%s-> next scope, Separator' % [' ' * (@level * 2)]
+            scopes.push(Scope.new(nil, @level + 1))
+          else
+            puts '%s-> curr scope, Separator' % [' ' * (@level * 2)]
+            push_item = true
+          end
+        when BlockDown
+          puts '%s-> BlockDown' % [' ' * (@level * 2)]
           scopes.push(Scope.new(nil, @level + 1))
-        else
-          scopes.last.push(item)
-        end
-      end
 
-      puts '--> Scopes: %d' % [scopes.length]
-      # pp scopes
+          # Block Stack
+          block_stack.push(item)
+          # curr_block = item
+        when BlockUp
+          puts '%s-> BlockUp' % [' ' * (@level * 2)]
+
+          # Block Stack
+          block_stack.pop
+        else
+          push_item = true
+        end # case item
+
+        if push_item
+          scopes.curr.push(item)
+          # if !scopes.prev.nil?
+          #   scopes.curr.curr.parent_item = scopes.prev.curr
+          # end
+          if !block_stack.curr.nil?
+            puts '%s-> Set Parent: C=%s P=%s' % [
+              ' ' * (@level * 2),
+              block_stack.curr.inspect,
+              block_stack.curr.org_prev_item.inspect,
+            ]
+            scopes.curr.curr.parent_item = block_stack.curr.org_prev_item
+            scopes.curr.curr.parent_item.add_child(item)
+          end
+        end
+      end # @items.each
+
+      puts '%s-> Scopes: %s' % [' ' * (@level * 2), scopes.inspect]
 
       if scopes.length > 1
-        puts '--> resolve sub scopes'
+        # puts '--> resolve sub scopes'
         resolved = []
-        scopes.each do |scope|
-          puts '--> Scope: %s' % [scope.inspect]
+        scopes.items.each do |scope|
+          # puts '--> Resolve Scope: %s' % [scope.inspect]
           resolved.push(scope.resolve)
         end
         resolved
       else
-        puts
-        puts '-> Lexer2.resolve L3'
+        # return ['hello', 'world']
+        puts '%s-> Lexer2.resolve SL2 (P=%s)' % [' ' * (@level * 2), scopes.curr.parent_item.inspect]
         item_collection1 = Collection.new
-        scopes.last.items.each do |item|
-          puts '--> Scope Item: %s' % [item.inspect]
+        scopes.curr.items.each do |item|
+          puts '%s-> %s Item: %s' % [' ' * (@level * 2), scopes.curr.inspect, item.inspect]
 
           case item
           when Number
@@ -67,6 +109,8 @@ module Lexer2
               # Skip Interval
               # puts '--> Skip Interval'
             elsif item.next_item.is_a?(Operator)
+              # Skip
+            elsif item.has_children
               # Skip
             else
               item_collection1.push(item)
@@ -100,7 +144,7 @@ module Lexer2
             # Skip
           when Operator
             if item_collection1.curr.is_a?(Range)
-              puts '--> Operator, Curr Range'
+              puts '%s-> Operator, Curr Range' % [' ' * (@level * 2)]
               if item_collection1.curr.right_item.is_a?(Number)
                 item_collection1.curr.right_item.inc
               end
@@ -110,26 +154,24 @@ module Lexer2
               item_collection1.curr.right_item = item.prev_item
               item_collection1.curr.right_item.inc
             elsif item.prev_item.is_a?(Operator)
-              puts '--> Operator, Prev Operator'
+              puts '%s-> Operator, Prev Operator' % [' ' * (@level * 2)]
               if item_collection1.curr.is_a?(Range)
                 if item_collection1.curr.right_item.is_a?(Number)
                   item_collection1.curr.right_item.inc
                 end
               end
             else
-              puts '--> Operator ELSE: %s' % [item.prev_item.inspect]
+              puts '%s-> Operator ELSE: %s' % [' ' * (@level * 2), item.prev_item.inspect]
             end
           else
             item_collection1.push(item)
           end # case item
-        end # scopes.last.items.each
+        end # scopes.curr.items.each
 
-        puts
-        puts '-> Lexer2.resolve L3 Items'
-        pp item_collection1.items.map{ |item| item.inspect }
+        # puts '%s-> Lexer2.resolve L3 Items' % [' ' * (@level * 2)]
+        # pp item_collection1.items.map{ |item| item.inspect }
 
-        puts
-        puts '-> Lexer2.resolve L4 [convert to int]'
+        puts '%s-> Lexer2.resolve L4 [convert to int]' % [' ' * (@level * 2)]
         items2 = []
         item_collection1.items.each do |item|
           items2.push(item.resolve)

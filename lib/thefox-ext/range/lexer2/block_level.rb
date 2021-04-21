@@ -27,6 +27,12 @@ module Lexer2
     def level()
       @level
     end
+
+    def ==(other)
+      if other.is_a?(BlockLevel)
+        @level == other.level
+      end
+    end
   end # BlockLevel
 end # Lexer
 end # Range

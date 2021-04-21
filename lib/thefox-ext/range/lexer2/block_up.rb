@@ -8,11 +8,13 @@ module Lexer2
       super(level)
       level.dec
       puts '-> BlockUp.initialize(%s)' % [level.inspect]
+      # puts '-> BlockUp.initialize()'
     end
 
     # :nocov:
     def inspect()
       'BlockUp(%s)' % [@level.inspect]
+      # 'BlockUp()'
     end
     # :nocov:
   end # BlockUp
