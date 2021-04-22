@@ -65,19 +65,15 @@ module Lexer2
     end
 
     def resolve(level = 0)
-      if level >= 5
-        raise 'Number level exceed'
-      end
       puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
       if self.has_parent_item
         if @parent_item.is_a?(Number)
-          # ('%s%s' % [@parent_item.resolve(level + 1), @char]).to_i
-          5000
+          ('%s%s' % [@parent_item.resolve(level + 1), @char]).to_i
         elsif @parent_item.is_a?(Scope)
           curr_item = @parent_item
           stack = [@char]
           while !curr_item.parent_scope.nil? do
-            puts '-----> %s          %s' % [curr_item.inspect, curr_item.ref_item.inspect]
+            # puts '-----> CI=%s          RI=%s' % [curr_item.inspect, curr_item.ref_item.inspect]
 
             if !curr_item.ref_item.nil?
               stack.push(curr_item.ref_item.char)
@@ -94,8 +90,10 @@ module Lexer2
           # else
           #   9999
           # end
+        elsif @parent_item.is_a?(Interval)
+          @char.to_i
         else
-          'Number.resolve ELSE'
+          nil
         end
       else
         @char.to_i

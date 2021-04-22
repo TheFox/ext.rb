@@ -12,16 +12,23 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      'Interval(%s)' % [@number.inspect]
+      if @number.nil?
+        'Interval()'
+      else
+        'Interval(%s)' % [@number.char]
+      end
     end
     # :nocov:
 
+    def number()
+      @number
+    end
     def number=(number)
       @number = number.dup
     end
 
     def resolve()
-      puts '-> %s.resolve()' % [inspect]
+      puts '-> %s.resolve' % [inspect]
       if @number.nil?
         1
       else

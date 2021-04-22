@@ -13,7 +13,7 @@ module Lexer2
       @level = level
       @ref_item = nil
 
-      puts '%s-> Scope(#%s).initialize(p=%s lev=%d)'.colorize(:red) % [' ' * (@level * 2), @instance_id, @parent_scope.inspect, @level]
+      # puts '%s-> Scope(#%s).initialize(p=%s lev=%d)'.colorize(:red) % [' ' * (@level * 2), @instance_id, @parent_scope.inspect, @level]
     end
 
     # :nocov:
@@ -72,7 +72,7 @@ module Lexer2
       block_stack = Collection.new()
       parent_item = nil
       @item_collection.items.each do |item|
-        puts '%s-> Item: %s' % [' ' * (@level * 2), item.inspect]
+        puts '%s-> SL1 Item: %s' % [' ' * (@level * 2), item.inspect]
 
         push_to_scope = false
 
@@ -85,9 +85,9 @@ module Lexer2
           end
         when BlockDown
           if block_stack.length == 0
-            puts '%s--> BlockDown: Curr=%s'.colorize(:green) % [' ' * (@level * 2),
-              scopes.curr.curr.inspect,
-            ]
+            # puts '%s--> BlockDown: Curr=%s'.colorize(:green) % [' ' * (@level * 2),
+            #   scopes.curr.curr.inspect,
+            # ]
 
             prev_item = scopes.curr.curr
 
@@ -95,9 +95,9 @@ module Lexer2
             # scopes.curr.ref_item = item.prev_item
             scopes.curr.ref_item = prev_item
 
-            puts '%s--> BlockDown: PrevItem=%s'.colorize(:green) % [' ' * (@level * 2),
-              scopes.curr.ref_item.inspect,
-            ]
+            # puts '%s--> BlockDown: PrevItem=%s'.colorize(:green) % [' ' * (@level * 2),
+            #   scopes.curr.ref_item.inspect,
+            # ]
           else
             push_to_scope = true
           end
@@ -108,7 +108,7 @@ module Lexer2
           block_stack.pop
 
           prev_ref_item = scopes.curr.ref_item
-          puts '-> BlockUp: %s' % [prev_ref_item.inspect]
+          # puts '-> BlockUp: %s' % [prev_ref_item.inspect]
 
           # TODO: THIS!!!!
           scopes.push(Scope.new(nil, self, @level + 1))
@@ -152,35 +152,36 @@ module Lexer2
         puts '%s-> SL2 ' % [' ' * (@level * 2)]
         item_collection1 = Collection.new
         scopes.curr.items.each do |item|
-          puts '%s-> %s Item: %s (P=%s)' % [
+          puts '%s-> SL2 Item: %s (P=%s)' % [
             ' ' * (@level * 2),
-            scopes.curr.inspect,
             item.inspect,
             item.parent_item.inspect,
           ]
 
           case item
           when Number
-            puts '--> Its %s' % [item.inspect]
+            # puts '--> Its %s' % [item.inspect]
             if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
               # Skip Range
               # puts '--> Skip Range'
             elsif item.prev_item.is_a?(Interval)
               # Skip Interval
-              puts '--> Skip Interval'
+              puts '%s--> Skip Interval' % [' ' * (@level * 2)]
+              # item.prev_item.next_item = nil
+              # item.parent_item = item.prev_item
+              # item.prev_item = nil
+              # item.next_item = nil
             elsif item.next_item.is_a?(Operator)
               # Skip Operator
-              puts '--> Skip Operator'
+              # puts '--> Skip Operator'
             elsif item.has_children
               # Skip
-              puts '--> Skip Has Children'
-            # elsif item.parent_item.is_a?(Scope)
-            #   puts '--> Skip Parent Scope'
+              # puts '--> Skip Has Children'
             elsif item.is_ref_item
-              puts '--> Skip Ref Item'
+              # puts '--> Skip Ref Item'
             else
               # puts '--> Push'
-              puts '--> Push: %s' % [item.inspect]
+              # puts '--> Push: %s' % [item.inspect]
               item_collection1.push(item)
             end
           when Range
@@ -201,6 +202,7 @@ module Lexer2
               if interval_item.is_a?(Interval)
                 item_collection1.curr.interval = interval_item
                 item_collection1.curr.interval.number = item.next_item.next_item.next_item
+                item_collection1.curr.interval.number.parent_item = item_collection1.curr.interval
               end
             else
               raise 'Invalid Range: %s %s' % [
@@ -245,13 +247,6 @@ module Lexer2
           items2.push(item.resolve)
         end
         items2
-        # if items2.length == 0
-        #   nil
-        # elsif items2.length == 1
-        #   items2.first
-        # else
-        #   items2
-        # end
       end
     end
 

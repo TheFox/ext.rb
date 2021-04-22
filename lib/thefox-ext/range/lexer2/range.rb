@@ -1,4 +1,6 @@
 
+require 'colorize'
+
 module TheFox
 module Range
 module Lexer2
@@ -48,12 +50,14 @@ module Lexer2
     end
 
     def resolve()
-      # puts '-> %s.resolve()' % [inspect]
+      puts '-> %s.resolve()'.colorize(:red) % [inspect]
       if @left_item.is_a?(Number) && @right_item.is_a?(Number)
         r = ::Range.new(@left_item.resolve, @right_item.resolve)
         if @interval.is_a?(Interval)
+          puts '--> I=%s'.colorize(:red) % [@interval.inspect]
           r = r.step(@interval.resolve)
         end
+        puts '--> %s'.colorize(:red) % [r.inspect]
         r.to_a
       end
     end
