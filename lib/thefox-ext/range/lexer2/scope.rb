@@ -7,35 +7,31 @@ module Lexer2
   class Scope < Base
     def initialize(items = nil, parent_scope = nil, level = 0)
       super()
-      # @nonce = rand(10 ** 3).to_s.rjust(3, '0')
+
       @item_collection = Collection.new(items)
       @parent_scope = parent_scope
       @level = level
       @ref_item = nil
 
-      puts '%s-> Scope(#%s).initialize(p=%s l=%d)'.colorize(:red) % [' ' * (@level * 2), @nonce, @parent_scope.inspect, @level]
+      puts '%s-> Scope(#%s).initialize(p=%s lev=%d)'.colorize(:red) % [' ' * (@level * 2), @instance_id, @parent_scope.inspect, @level]
     end
 
     # :nocov:
-    def inspect()
-      'Scope(#%s PS=%s RI=%s)' % [@nonce, @parent_scope.inspect, @ref_item.inspect]
+    def name()
+      'Scope(#%s)' % [@instance_id]
     end
-    # def dup()
-    #   puts '-> dup: %s' % [inspect]
-    #   exit(1)
-    #   super
-    # end
+    def inspect()
+      'Scope(#%s len=%d)' % [@instance_id, @item_collection.length]
+    end
     # :nocov:
 
     def push(item)
-      puts '%s-> %s.push(%s) -> PS=%s PRI=%s'.colorize(:green) % [' ' * (@level * 2),
-        inspect,
-        item.inspect,
-        @parent_scope.inspect,
-        @parent_scope.ref_item.inspect,
-      ]
-      # item.parent_item = @parent_item
-      # item.parent_item = @ref_item
+      # puts '%s-> %s.push(%s) -> PS=%s PRI=%s'.colorize(:green) % [' ' * (@level * 2),
+      #   inspect,
+      #   item.inspect,
+      #   @parent_scope.inspect,
+      #   @parent_scope.ref_item.inspect,
+      # ]
       @item_collection.push(item)
     end
 
@@ -45,12 +41,6 @@ module Lexer2
 
     def curr()
       @item_collection.curr
-    end
-
-    def parent_item=(parent_item)
-      # super(parent_item)
-      # puts '%s--> Set Parent: %s'.colorize(:green) % [' ' * (@level * 2), @parent_item.inspect]
-      exit(1)
     end
 
     def parent_scope()
@@ -64,6 +54,7 @@ module Lexer2
       @ref_item
     end
     def ref_item=(ref_item)
+      ref_item.is_ref_item = true
       @ref_item = ref_item
     end
 
@@ -83,21 +74,20 @@ module Lexer2
         case item
         when Separator
           if block_stack.length == 0
-            # puts '%s-> next scope, Separator' % [' ' * (@level * 2)]
             scopes.push(Scope.new(nil, self, @level + 1))
           else
-            # puts '%s-> curr scope, Separator' % [' ' * (@level * 2)]
             push_to_scope = true
           end
         when BlockDown
-          # puts '%s-> BlockDown' % [' ' * (@level * 2)]
           if block_stack.length == 0
             scopes.push(Scope.new(nil, self, @level + 1))
             scopes.curr.ref_item = item.prev_item
-            # parent_item = item.prev_item
-            puts '%s--> Block Down: PI=%s RI=%s'.colorize(:green) % [' ' * (@level * 2),
+            # scopes.curr.ref_item.is_ref_item = true
+
+            puts '%s--> Block Down: PI=%s RI=%s IR=%d'.colorize(:green) % [' ' * (@level * 2),
               scopes.curr.parent_item.inspect,
               scopes.curr.ref_item.inspect,
+              scopes.curr.ref_item.is_ref_item,
             ]
           else
             push_to_scope = true
@@ -106,10 +96,14 @@ module Lexer2
           # Block Stack
           block_stack.push(item)
         when BlockUp
-          # puts '%s-> BlockUp' % [' ' * (@level * 2)]
-
-          # Block Stack
           block_stack.pop
+
+          prev_ref_item = scopes.curr.ref_item
+          puts '-> BlockUp: %s' % [prev_ref_item.inspect]
+
+          # TODO: THIS!!!!
+          scopes.push(Scope.new(nil, self, @level + 1))
+          scopes.curr.ref_item = prev_ref_item
         else
           push_to_scope = true
         end # case item
@@ -123,39 +117,23 @@ module Lexer2
             scopes.curr.ref_item.inspect,
           ]
           scopes.curr.push(item)
+          scopes.curr.curr.parent_item = self
           puts '%s--> Pushed Item: %s' % [' ' * (@level * 2),
             item.inspect,
           ]
-
-          # Block Stack
-          if !block_stack.curr.nil?
-            # puts '%s--> Set Parent: %s'.colorize(:green) % [
-            #   ' ' * (@level * 2),
-            #   parent_item.inspect,
-            # ]
-
-            # scopes               Collection
-            # scopes.curr          Scope
-            # scopes.curr.curr     Scope.@item_collection.curr
-
-            # scopes.curr.curr.parent_item = block_stack.curr.org_prev_item
-            # scopes.curr.curr.parent_item.add_child(item)
-          end
         end
       end # @item_collection.items
 
       # puts
-      # puts '%s-> Scopes: %s'.colorize(:blue) % [' ' * (@level * 2), scopes.inspect]
+      puts '%s-> Scopes: %s'.colorize(:blue) % [' ' * (@level * 2), scopes.inspect]
       # scopes.items.each do |scope|
       #   puts scope.inspect.colorize(:blue)
       #   puts scope.items.map{ |i| i.inspect }.to_s.colorize(:blue)
       # end
 
       if scopes.length > 1
-        # puts '--> resolve sub scopes'
         resolved = []
         scopes.items.each do |scope|
-          # puts '--> Resolve Scope: %s' % [scope.inspect]
           resolved.push(scope.resolve)
         end
         resolved
@@ -176,21 +154,25 @@ module Lexer2
 
           case item
           when Number
-            # puts '--> Its %s' % [item.inspect]
+            puts '--> Its %s' % [item.inspect]
             if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
               # Skip Range
               # puts '--> Skip Range'
             elsif item.prev_item.is_a?(Interval)
               # Skip Interval
-              # puts '--> Skip Interval'
+              puts '--> Skip Interval'
             elsif item.next_item.is_a?(Operator)
               # Skip Operator
-              # puts '--> Skip Interval'
+              puts '--> Skip Operator'
             elsif item.has_children
               # Skip
-              # puts '--> Skip Has Children'
+              puts '--> Skip Has Children'
+            # elsif item.parent_item.is_a?(Scope)
+            #   puts '--> Skip Parent Scope'
+            elsif item.is_ref_item
+              puts '--> Skip Ref Item'
             else
-              # puts '--> Push'
+              puts '--> Push: %d' % [item.is_ref_item]
               item_collection1.push(item)
             end
           when Range
@@ -254,12 +236,22 @@ module Lexer2
         item_collection1.items.each do |item|
           items2.push(item.resolve)
         end
-        items2
+        # items2
+        if items2.length == 0
+          nil
+        elsif items2.length == 1
+          items2.first
+        else
+          items2
+        end
       end
     end
 
     class << self
       def keep_nonce_on_dup()
+        true
+      end
+      def keep_instance_id_on_dup()
         true
       end
     end

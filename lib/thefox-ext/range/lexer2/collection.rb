@@ -61,6 +61,9 @@ module Lexer2
       if curr_item.class.keep_nonce_on_dup
         curr_item.nonce = item.nonce
       end
+      if curr_item.class.keep_instance_id_on_dup
+        curr_item.instance_id = item.instance_id
+      end
     end
 
     def pop()

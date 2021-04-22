@@ -3,9 +3,13 @@ module TheFox
 module Range
 module Lexer2
   class Base
+    @@instance_id = 0
+
     def initialize(symbole = nil)
       # puts '-> Base.initialize'
 
+      @@instance_id += 1
+      @instance_id = @@instance_id
       @nonce = Base.generate_nonce()
       @symbole = symbole
       @prev_item = nil
@@ -22,6 +26,13 @@ module Lexer2
       'Base'
     end
     # :nocov:
+
+    def instance_id()
+      @instance_id
+    end
+    def instance_id=(instance_id)
+      @instance_id = instance_id
+    end
 
     def nonce()
       @nonce
@@ -101,6 +112,9 @@ module Lexer2
         rand(10 ** 3).to_s.rjust(3, '0')
       end
       def keep_nonce_on_dup()
+        false
+      end
+      def keep_instance_id_on_dup()
         false
       end
     end
