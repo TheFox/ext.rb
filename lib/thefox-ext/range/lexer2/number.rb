@@ -24,10 +24,19 @@ module Lexer2
       if !@parent_item.nil?
         a.push('^%s' % @parent_item.inspect)
       end
+      a.push('IRI=%d' % [@is_ref_item])
       # if @children.length > 0
       #   a.push('v%d' % @children.length)
       # end
       'Number(%s)' % [a.join(' ')]
+    end
+    def dup()
+      # puts '-> Number.dup(%s) -> %s %s' % [@char, inspect, self.is_ref_item ? 'Y' : 'n']
+      # puts '-> %s.dup' % [inspect]
+      o = super()
+      o.is_ref_item = self.is_ref_item
+      # puts '-> Number.dup(%s) -> %s' % [@char, o.inspect]
+      o
     end
     # :nocov:
 
@@ -68,7 +77,7 @@ module Lexer2
           curr_item = @parent_item
           stack = [@char]
           while !curr_item.parent_scope.nil? do
-            # puts '-----> %s          %s' % [curr_item.inspect, curr_item.ref_item.inspect]
+            puts '-----> %s          %s' % [curr_item.inspect, curr_item.ref_item.inspect]
 
             if !curr_item.ref_item.nil?
               stack.push(curr_item.ref_item.char)
