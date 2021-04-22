@@ -244,14 +244,14 @@ module Lexer2
         item_collection1.items.each do |item|
           items2.push(item.resolve)
         end
-        # items2
-        if items2.length == 0
-          nil
-        elsif items2.length == 1
-          items2.first
-        else
-          items2
-        end
+        items2
+        # if items2.length == 0
+        #   nil
+        # elsif items2.length == 1
+        #   items2.first
+        # else
+        #   items2
+        # end
       end
     end
 
