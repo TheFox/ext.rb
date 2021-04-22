@@ -4,5 +4,5 @@
 
 - Removed deprecated `Array.resolve_range_str`.
 - Removed deprecated `String.resolve_range`.
-- Drop Ruby version 2.3 support.
+- Dropped support for Ruby version 2.3.
 - Added Range Resolver class.
