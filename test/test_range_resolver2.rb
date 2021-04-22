@@ -50,6 +50,11 @@ class TestRangeResolver < MiniTest::Test
     assert_equal((99..101).to_a, rr.to_a)
   end
 
+  def test_range_resolver_minus_range3
+    rr = TheFox::Range::Resolver2.new('1-1')
+    assert_equal([1], rr.to_a)
+  end
+
   def test_range_resolver_dot_range1
     rr = TheFox::Range::Resolver2.new('99.101')
     assert_equal((99..101).to_a, rr.to_a)
@@ -168,6 +173,11 @@ class TestRangeResolver < MiniTest::Test
   def test_range_resolver_interval_simple3
     rr = TheFox::Range::Resolver2.new('1-10/2')
     assert_equal([1, 3, 5, 7, 9], rr.to_a)
+  end
+
+  def test_range_resolver_interval_simple4
+    rr = TheFox::Range::Resolver2.new('1000-1100/20')
+    assert_equal([1000, 1020, 1040, 1060, 1080, 1100], rr.to_a)
   end
 
   def test_range_resolver_interval_block1
