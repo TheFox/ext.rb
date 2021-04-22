@@ -205,6 +205,11 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([210, 212, 214, 216, 218, 220], rr.to_a)
   end
 
+  def test_range_resolver_interval_empty1
+    rr = TheFox::Range::Resolver2.new('/20')
+    assert_equal([], rr.to_a)
+  end
+
   def test_range_resolver_scope1
     rr = TheFox::Range::Resolver2.new(',,,,,,1,2')
     assert_equal([1, 2], rr.to_a)
