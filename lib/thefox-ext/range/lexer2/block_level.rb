@@ -6,7 +6,7 @@ module Range
 module Lexer2
   class BlockLevel
     def initialize()
-      puts '-> BlockLevel.initialize()'
+      # puts '-> BlockLevel.initialize()'
       @level = 0
     end
 

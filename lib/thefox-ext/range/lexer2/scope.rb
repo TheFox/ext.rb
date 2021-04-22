@@ -66,13 +66,13 @@ module Lexer2
     def resolve()
       # puts '-> %s.resolve(%d)' % [self.inspect, @level]
 
-      puts '%s-> SL1: %s P=%s' % [' ' * (@level * 2), inspect, @parent_item.inspect]
+      # puts '%s-> SL1: %s P=%s' % [' ' * (@level * 2), inspect, @parent_item.inspect]
 
       scopes = Collection.new([Scope.new(nil, self, @level + 1)])
       block_stack = Collection.new()
       parent_item = nil
       @item_collection.items.each do |item|
-        puts '%s-> SL1 Item: %s' % [' ' * (@level * 2), item.inspect]
+        # puts '%s-> SL1 Item: %s' % [' ' * (@level * 2), item.inspect]
 
         push_to_scope = false
 
@@ -132,7 +132,7 @@ module Lexer2
       end # @item_collection.items
 
       # puts
-      puts '%s-> Scopes: %s'.colorize(:blue) % [' ' * (@level * 2), scopes.inspect]
+      # puts '%s-> Scopes: %s'.colorize(:blue) % [' ' * (@level * 2), scopes.inspect]
       # scopes.items.each do |scope|
       #   puts scope.inspect.colorize(:blue)
       #   puts scope.items.map{ |i| i.inspect }.to_s.colorize(:blue)
@@ -149,14 +149,14 @@ module Lexer2
         # puts '%s-> SL1 Items' % [' ' * (@level * 2)]
         # pp scopes.curr.items.map{ |item| item.inspect }
 
-        puts '%s-> SL2 ' % [' ' * (@level * 2)]
+        # puts '%s-> SL2 ' % [' ' * (@level * 2)]
         item_collection1 = Collection.new
         scopes.curr.items.each do |item|
-          puts '%s-> SL2 Item: %s (P=%s)' % [
-            ' ' * (@level * 2),
-            item.inspect,
-            item.parent_item.inspect,
-          ]
+          # puts '%s-> SL2 Item: %s (P=%s)' % [
+          #   ' ' * (@level * 2),
+          #   item.inspect,
+          #   item.parent_item.inspect,
+          # ]
 
           case item
           when Number
@@ -166,7 +166,7 @@ module Lexer2
               # puts '--> Skip Range'
             elsif item.prev_item.is_a?(Interval)
               # Skip Interval
-              puts '%s--> Skip Interval' % [' ' * (@level * 2)]
+              # puts '%s--> Skip Interval' % [' ' * (@level * 2)]
               # item.prev_item.next_item = nil
               # item.parent_item = item.prev_item
               # item.prev_item = nil
@@ -214,20 +214,20 @@ module Lexer2
             # Skip
           when Operator
             if item_collection1.curr.is_a?(Range)
-              puts '%s-> Operator, Curr Range'.colorize(:cyan) % [' ' * (@level * 2)]
+              # puts '%s-> Operator, Curr Range'.colorize(:cyan) % [' ' * (@level * 2)]
 
               if item_collection1.curr.right_item.is_a?(Number)
                 item_collection1.curr.right_item.inc
               end
             elsif item.prev_item.is_a?(Number)
-              puts '%s-> Operator, Number'.colorize(:cyan) % [' ' * (@level * 2)]
+              # puts '%s-> Operator, Number'.colorize(:cyan) % [' ' * (@level * 2)]
 
               item_collection1.push(Range.new(item.symbole))
               item_collection1.curr.left_item = item.prev_item
               item_collection1.curr.right_item = item.prev_item
               item_collection1.curr.right_item.inc
             elsif item.prev_item.is_a?(Operator)
-              puts '%s-> Operator, Prev Operator'.colorize(:cyan) % [' ' * (@level * 2)]
+              # puts '%s-> Operator, Prev Operator'.colorize(:cyan) % [' ' * (@level * 2)]
 
               if item_collection1.curr.is_a?(Range)
                 if item_collection1.curr.right_item.is_a?(Number)
@@ -245,7 +245,7 @@ module Lexer2
         # puts '%s-> L3 Items' % [' ' * (@level * 2)]
         # pp item_collection1.items.map{ |item| item.inspect }
 
-        puts '%s-> L4 [convert to int]'.colorize(:blue) % [' ' * (@level * 2)]
+        # puts '%s-> L4 [convert to int]'.colorize(:blue) % [' ' * (@level * 2)]
         items2 = []
         item_collection1.items.each do |item|
           items2.push(item.resolve)

@@ -6,7 +6,7 @@ module Range
 module Lexer2
   class Lexer
     def initialize(chars)
-      puts '-> Lexer2.initialize'
+      # puts '-> Lexer2.initialize'
       @chars = chars
     end
 
@@ -50,8 +50,8 @@ module Lexer2
       # puts '-> Lexer2.resolve L1 Items'
       # pp item_collection1.items.map{ |item| item.inspect }
 
-      puts
-      puts '-> Lexer2.resolve L2 [Append Number]'
+      # puts
+      # puts '-> Lexer2.resolve L2 [Append Number]'
       item_collection2 = Collection.new
       item_collection1.items.each do |item|
         # puts '--> L2 item: %s' % [item.inspect]
@@ -72,7 +72,7 @@ module Lexer2
           #   item.symbole == '.' ? 'Y' : 'n',
           # ]
           if item_collection2.curr.is_a?(Range) && item_collection2.curr.symbole == '.' && item.symbole == '.'
-            puts '--> L2 Skip'
+            # puts '--> L2 Skip'
           else
             item_collection2.push(item)
           end
@@ -86,7 +86,7 @@ module Lexer2
       # puts '-> Lexer2.resolve L2 Items'
       # pp item_collection2.items.map{ |item| item.inspect }
 
-      puts
+      # puts
       scope = Scope.new(item_collection2.items)
       scope.resolve
     end

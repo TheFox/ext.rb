@@ -28,7 +28,7 @@ module Lexer2
     end
 
     def resolve()
-      puts '-> %s.resolve' % [inspect]
+      # puts '-> %s.resolve' % [inspect]
       if @number.nil?
         1
       else

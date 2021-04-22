@@ -5,7 +5,7 @@ module Lexer2
   class Separator < Base
     def initialize()
       super()
-      puts '-> Separator.initialize()'
+      # puts '-> Separator.initialize()'
     end
 
     # :nocov:

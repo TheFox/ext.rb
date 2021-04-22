@@ -65,7 +65,7 @@ module Lexer2
     end
 
     def resolve(level = 0)
-      puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
+      # puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
       if self.has_parent_item
         if @parent_item.is_a?(Number)
           ('%s%s' % [@parent_item.resolve(level + 1), @char]).to_i
