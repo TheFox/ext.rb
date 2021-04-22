@@ -9,12 +9,13 @@ module Lexer2
     def initialize(char)
       super()
       # puts '-> Number.initialize(%s)' % [char]
+      #@nonce = rand(10 ** 3).to_s.rjust(3, '0')
       @char = char
     end
 
     # :nocov:
     def inspect()
-      a = [@char]
+      a = ['#' + @nonce.to_s, 'c' + @char]
       if !@parent_item.nil?
         a.push('^%s' % @parent_item.inspect)
       end
@@ -43,9 +44,9 @@ module Lexer2
     end
 
     def resolve(level = 0)
-      puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
+      # puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
       if self.has_parent_item
-        '%s_%s' % [@parent_item.resolve(level + 1), @char.to_i]
+        '%s%s' % [@parent_item.resolve(level + 1), @char.to_i]
       else
         @char.to_i
       end

@@ -16,5 +16,7 @@ end
 # require_relative 'test_string'
 # require_relative 'test_true'
 # require_relative 'test_console'
+
 # require_relative 'test_range_resolver'
-require_relative 'test_range_resolver2'
+# require_relative 'test_range_resolver2'
+require_relative 'test_range_lexer_number'

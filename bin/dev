@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# coding: UTF-8
 
 require 'thefox-ext'
 require 'pp'

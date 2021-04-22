@@ -6,12 +6,12 @@ module Lexer2
     def initialize(symbole = nil)
       # puts '-> Base.initialize'
 
+      @nonce = Base.generate_nonce()
       @symbole = symbole
       @prev_item = nil
       @org_prev_item = nil
       @next_item = nil
 
-      # @scope = nil
       @parent_item = nil
       @children = []
     end
@@ -21,6 +21,13 @@ module Lexer2
       'Base'
     end
     # :nocov:
+
+    def nonce()
+      @nonce
+    end
+    def nonce=(nonce)
+      @nonce = nonce
+    end
 
     def chain(prev_item)
       # puts '%s(%s).chain' % [self.inspect, opts.inspect]
@@ -55,13 +62,6 @@ module Lexer2
       @next_item = next_item
     end
 
-    # def scope()
-    #   @scope
-    # end
-    # def scope=(scope)
-    #   @scope = scope
-    # end
-
     def parent_item()
       @parent_item
     end
@@ -85,6 +85,7 @@ module Lexer2
     def dup()
       # puts '-> Base.dup'
       o = super()
+      o.nonce = Base.generate_nonce()
       o.prev_item = nil
       o.next_item = nil
       o
@@ -92,6 +93,12 @@ module Lexer2
 
     def resolve()
       puts '-> Base.resolve'
+    end
+
+    class << self
+      def generate_nonce()
+        rand(10 ** 3).to_s.rjust(3, '0')
+      end
     end
   end # Base
 end # Lexer

@@ -47,3 +47,9 @@ require 'thefox-ext'
 ## Project Links
 
 - [Gem](https://rubygems.org/gems/thefox-ext)
+
+## Dev
+
+```bash
+bundler exec ./bin/test.rb
+```

@@ -6,7 +6,7 @@ module Lexer2
   class Block < Base
     def initialize(level)
       super()
-      puts '-> Block.initialize(%s)' % [level.inspect]
+      # puts '-> Block.initialize(%s)' % [level.inspect]
       @level = level.dup
     end
 

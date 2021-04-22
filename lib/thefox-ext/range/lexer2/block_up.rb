@@ -7,7 +7,7 @@ module Lexer2
     def initialize(level)
       super(level)
       level.dec
-      puts '-> BlockUp.initialize(%s)' % [level.inspect]
+      # puts '-> BlockUp.initialize(%s)' % [level.inspect]
       # puts '-> BlockUp.initialize()'
     end
 

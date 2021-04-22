@@ -1,17 +1,22 @@
 
+require 'colorize'
+
 module TheFox
 module Range
 module Lexer2
   class Scope < Base
     def initialize(items = nil, level = 0)
+      @nonce = rand(10 ** 3).to_s.rjust(3, '0')
       @item_collection = Collection.new(items)
       @level = level
-      puts '%s-> Scope.initialize(%d, %d)' % [' ' * (@level * 2), @item_collection.length, @level]
+      @parent_scope = nil
+
+      puts '%s-> Scope.initialize(%d, %d)'.colorize(:red) % [' ' * (@level * 2), @item_collection.length, @level]
     end
 
     # :nocov:
     def inspect()
-      'Scope(%d)' % [@item_collection.length]
+      'Scope(#%s %d)' % [@nonce, @item_collection.length]
     end
     # :nocov:
 
@@ -28,6 +33,13 @@ module Lexer2
       @item_collection.curr
     end
 
+    def parent_scope()
+      @parent_scope
+    end
+    def parent_scope=(parent_scope)
+      @parent_scope = parent_scope
+    end
+
     def resolve()
       # puts '-> %s.resolve(%d)' % [self.inspect, @level]
 
@@ -35,11 +47,10 @@ module Lexer2
 
       scopes = Collection.new([Scope.new(nil, @level + 1)])
       block_stack = Collection.new()
-      # curr_block = nil
       @item_collection.items.each do |item|
         puts '%s-> Item: %s' % [' ' * (@level * 2), item.inspect]
 
-        push_item = false
+        push_to_scope = false
 
         case item
         when Separator
@@ -48,31 +59,31 @@ module Lexer2
             scopes.push(Scope.new(nil, @level + 1))
           else
             # puts '%s-> curr scope, Separator' % [' ' * (@level * 2)]
-            push_item = true
+            push_to_scope = true
           end
         when BlockDown
           # puts '%s-> BlockDown' % [' ' * (@level * 2)]
-          scopes.push(Scope.new(nil, @level + 1))
+          if block_stack.length == 0
+            scopes.push(Scope.new(nil, @level + 1))
+          end
 
           # Block Stack
           block_stack.push(item)
-          # curr_block = item
         when BlockUp
           # puts '%s-> BlockUp' % [' ' * (@level * 2)]
 
           # Block Stack
           block_stack.pop
         else
-          push_item = true
+          push_to_scope = true
         end # case item
 
-        if push_item
+        if push_to_scope
           scopes.curr.push(item)
-          # if !scopes.prev.nil?
-          #   scopes.curr.curr.parent_item = scopes.prev.curr
-          # end
+
+          # Block Stack
           if !block_stack.curr.nil?
-            puts '%s--> Set Parent: C=%s P=%s' % [
+            puts '%s--> Set Parent: C=%s P=%s'.colorize(:magenta) % [
               ' ' * (@level * 2),
               block_stack.curr.inspect,
               block_stack.curr.org_prev_item.inspect,
@@ -88,7 +99,12 @@ module Lexer2
         end
       end # @items.each
 
-      puts '%s-> Scopes: %s' % [' ' * (@level * 2), scopes.inspect]
+      puts
+      puts '%s-> Scopes: %s'.colorize(:blue) % [' ' * (@level * 2), scopes.inspect]
+      # scopes.items.each do |scope|
+      #   puts scope.inspect.colorize(:blue)
+      #   puts scope.items.map{ |i| i.inspect }.to_s.colorize(:blue)
+      # end
 
       if scopes.length > 1
         # puts '--> resolve sub scopes'

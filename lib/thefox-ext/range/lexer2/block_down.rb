@@ -7,7 +7,7 @@ module Lexer2
     def initialize(level)
       level.inc
       super(level)
-      puts '-> BlockDown.initialize(%s)' % [level.inspect]
+      # puts '-> BlockDown.initialize(%s)' % [level.inspect]
     end
 
     # :nocov:
