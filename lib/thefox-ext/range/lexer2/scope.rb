@@ -65,6 +65,8 @@ module Lexer2
           # puts '%s-> BlockDown' % [' ' * (@level * 2)]
           if block_stack.length == 0
             scopes.push(Scope.new(nil, @level + 1))
+          else
+            push_to_scope = true
           end
 
           # Block Stack
