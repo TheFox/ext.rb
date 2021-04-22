@@ -214,17 +214,21 @@ module Lexer2
             # Skip
           when Operator
             if item_collection1.curr.is_a?(Range)
-              # puts '%s-> Operator, Curr Range' % [' ' * (@level * 2)]
+              puts '%s-> Operator, Curr Range'.colorize(:cyan) % [' ' * (@level * 2)]
+
               if item_collection1.curr.right_item.is_a?(Number)
                 item_collection1.curr.right_item.inc
               end
             elsif item.prev_item.is_a?(Number)
+              puts '%s-> Operator, Number'.colorize(:cyan) % [' ' * (@level * 2)]
+
               item_collection1.push(Range.new(item.symbole))
               item_collection1.curr.left_item = item.prev_item
               item_collection1.curr.right_item = item.prev_item
               item_collection1.curr.right_item.inc
             elsif item.prev_item.is_a?(Operator)
-              # puts '%s-> Operator, Prev Operator' % [' ' * (@level * 2)]
+              puts '%s-> Operator, Prev Operator'.colorize(:cyan) % [' ' * (@level * 2)]
+
               if item_collection1.curr.is_a?(Range)
                 if item_collection1.curr.right_item.is_a?(Number)
                   item_collection1.curr.right_item.inc
