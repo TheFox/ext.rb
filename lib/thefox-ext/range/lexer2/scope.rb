@@ -125,6 +125,7 @@ module Lexer2
 
           case item
           when Number
+            puts '--> Its %s' % [item.inspect]
             if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
               # Skip Range
               # puts '--> Skip Range'
