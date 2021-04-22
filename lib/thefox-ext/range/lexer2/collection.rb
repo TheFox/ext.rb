@@ -57,6 +57,10 @@ module Lexer2
       # Chain
       curr_item.chain(prev_item)
       curr_item.org_prev_item = org_prev_item
+
+      if curr_item.class.keep_nonce_on_dup
+        curr_item.nonce = item.nonce
+      end
     end
 
     def pop()

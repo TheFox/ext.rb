@@ -16,14 +16,15 @@ module Lexer2
     # :nocov:
     def inspect()
       if !@left_item.nil? && !@right_item.nil?
-        'Range(s=%s l=%s r=%s i=%s)' % [
+        'Range(#%s s=%s l=%s r=%s i=%s)' % [
+          @nonce,
           @symbole,
           @left_item.inspect,
           @right_item.inspect,
           @interval.inspect
         ]
       else
-        'Range(%s)' % [@symbole]
+        'Range(#%s %s)' % [@nonce, @symbole]
       end
     end
     # :nocov:
@@ -47,7 +48,7 @@ module Lexer2
     end
 
     def resolve()
-      puts '-> %s.resolve()' % [inspect]
+      # puts '-> %s.resolve()' % [inspect]
       if @left_item.is_a?(Number) && @right_item.is_a?(Number)
         r = ::Range.new(@left_item.resolve, @right_item.resolve)
         if @interval.is_a?(Interval)

@@ -12,7 +12,7 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      'BlockDown(%s)' % [@level.inspect]
+      'BlockDown(%s)' % [@level.level]
       # if @prev_item.nil?
       # else
       #   'BlockDown(%s <%s)' % [@level.inspect, @prev_item.inspect]

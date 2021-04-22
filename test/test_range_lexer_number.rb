@@ -43,7 +43,7 @@ class TestRangeLexerNumber < MiniTest::Test
 
     n1 = TheFox::Range::Lexer2::Number.new('9')
     n1.parent_item = n2
-    assert_equal('789', n1.resolve)
+    assert_equal(789, n1.resolve)
   end
 
   def test_range_lexer_number_dup1

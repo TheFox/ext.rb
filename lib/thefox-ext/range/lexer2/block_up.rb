@@ -13,7 +13,7 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      'BlockUp(%s)' % [@level.inspect]
+      'BlockUp(%s)' % [@level.level]
       # 'BlockUp()'
     end
     # :nocov:

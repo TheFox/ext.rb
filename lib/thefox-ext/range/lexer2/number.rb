@@ -15,7 +15,11 @@ module Lexer2
 
     # :nocov:
     def inspect()
-      a = ['#' + @nonce.to_s, 'c' + @char]
+      a = [
+        # '#' + @nonce.to_s,
+        # 'c' + @char,
+        @char,
+      ]
       if !@parent_item.nil?
         a.push('^%s' % @parent_item.inspect)
       end
@@ -46,7 +50,11 @@ module Lexer2
     def resolve(level = 0)
       # puts '-> %s.resolve(%d)' % [self.inspect, @char, level]
       if self.has_parent_item
-        '%s%s' % [@parent_item.resolve(level + 1), @char.to_i]
+        if @parent_item.is_a?(Number)
+          ('%s%s' % [@parent_item.resolve(level + 1), @char]).to_i
+        else
+          'N/A'
+        end
       else
         @char.to_i
       end

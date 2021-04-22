@@ -50,8 +50,8 @@ module Lexer2
       # puts '-> Lexer2.resolve L1 Items'
       # pp item_collection1.items.map{ |item| item.inspect }
 
-      # puts
-      # puts '-> Lexer2.resolve L2 [Append Number]'
+      puts
+      puts '-> Lexer2.resolve L2 [Append Number]'
       item_collection2 = Collection.new
       item_collection1.items.each do |item|
         # puts '--> L2 item: %s' % [item.inspect]
@@ -60,6 +60,19 @@ module Lexer2
         when Number
           if item_collection2.curr.is_a?(Number)
             item_collection2.curr.append(item)
+          else
+            item_collection2.push(item)
+          end
+        when Range
+          # puts '--> L2 Its Range: %s  %s  %s %s %s' % [
+          #   item.inspect,
+          #   item_collection2.curr.inspect,
+          #   item_collection2.curr.is_a?(Range) ? 'Y' : 'n',
+          #   item_collection2.curr.symbole == '.' ? 'Y' : 'n',
+          #   item.symbole == '.' ? 'Y' : 'n',
+          # ]
+          if item_collection2.curr.is_a?(Range) && item_collection2.curr.symbole == '.' && item.symbole == '.'
+            puts '--> L2 Skip'
           else
             item_collection2.push(item)
           end

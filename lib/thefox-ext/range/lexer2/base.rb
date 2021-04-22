@@ -13,6 +13,7 @@ module Lexer2
       @next_item = nil
 
       @parent_item = nil
+      #@parent_scope = nil
       @children = []
     end
 
@@ -98,6 +99,9 @@ module Lexer2
     class << self
       def generate_nonce()
         rand(10 ** 3).to_s.rjust(3, '0')
+      end
+      def keep_nonce_on_dup()
+        false
       end
     end
   end # Base
