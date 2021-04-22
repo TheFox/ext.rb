@@ -79,7 +79,7 @@ module Lexer2
       @children.push(child)
     end
     def has_children()
-      @children.length > 1
+      @children.length > 0
     end
 
     def dup()

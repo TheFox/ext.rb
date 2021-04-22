@@ -128,15 +128,18 @@ module Lexer2
             puts '--> Its %s' % [item.inspect]
             if item.next_item.is_a?(Range) || item.prev_item.is_a?(Range)
               # Skip Range
-              # puts '--> Skip Range'
+              puts '--> Skip Range'
             elsif item.prev_item.is_a?(Interval)
               # Skip Interval
-              # puts '--> Skip Interval'
+              puts '--> Skip Interval'
             elsif item.next_item.is_a?(Operator)
-              # Skip
+              # Skip Operator
+              puts '--> Skip Interval'
             elsif item.has_children
               # Skip
+              puts '--> Skip Has Children'
             else
+              puts '--> Push'
               item_collection1.push(item)
             end
           when Range
