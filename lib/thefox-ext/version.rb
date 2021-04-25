@@ -1,8 +1,8 @@
 
 module TheFox
   module Ext
-    VERSION = '2.1.0-dev.0'
-    DATE = '2021-04-19'
+    VERSION = '3.0.0-rc.0'
+    DATE = '2021-04-25'
     HOMEPAGE = 'https://github.com/TheFox/ext.rb'
   end
 end
