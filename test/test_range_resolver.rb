@@ -170,6 +170,11 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([1205, 1206, 1207], rr.to_a)
   end
 
+  def test_range_resolver_block_correct_prefix_ranges6
+    rr = TheFox::Range::Resolver.new('1{1{0-2}}')
+    assert_equal([110, 111, 112], rr.to_a)
+  end
+
   def test_range_resolver_block_correct_prefix_range_inc
     rr = TheFox::Range::Resolver.new('1{0002++},3')
     assert_equal([10002, 10003, 10004, 3], rr.to_a)
