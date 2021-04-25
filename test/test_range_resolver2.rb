@@ -160,6 +160,11 @@ class TestRangeResolver < MiniTest::Test
     assert_equal([10002, 12, 3], rr.to_a)
   end
 
+  def test_range_resolver_block_correct_prefix_ranges3
+    rr = TheFox::Range::Resolver2.new('98{2-4,020-022}')
+    assert_equal([982, 983, 984, 98020, 98021, 98022], rr.to_a)
+  end
+
   def test_range_resolver_block_correct_prefix_range_inc
     rr = TheFox::Range::Resolver2.new('1{0002++},3')
     assert_equal([10002, 10003, 10004, 3], rr.to_a)
