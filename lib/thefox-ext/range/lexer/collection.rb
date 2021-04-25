@@ -1,9 +1,7 @@
 
-require 'pp'
-
 module TheFox
 module Range
-module Lexer2
+module Lexer
   class Collection
     def initialize(items = nil)
       # puts '-> Collection.initialize()'

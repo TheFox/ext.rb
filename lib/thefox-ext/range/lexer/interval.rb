@@ -1,7 +1,7 @@
 
 module TheFox
 module Range
-module Lexer2
+module Lexer
   # x-y/n
   class Interval < Base
     def initialize()

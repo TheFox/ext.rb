@@ -1,9 +1,7 @@
 
-require 'colorize'
-
 module TheFox
 module Range
-module Lexer2
+module Lexer
   # - ..
   class Range < Base
     def initialize(symbole)

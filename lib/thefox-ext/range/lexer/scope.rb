@@ -1,9 +1,7 @@
 
-require 'colorize'
-
 module TheFox
 module Range
-module Lexer2
+module Lexer
   class Scope < Base
     def initialize(items = nil, parent_scope = nil, level = 0)
       super()

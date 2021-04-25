@@ -1,6 +1,4 @@
 
-require 'pp'
-
 module TheFox
 module Range
   # Resolve a range string to an array.
@@ -18,16 +16,16 @@ module Range
   # '1-3/1' -> [1, 2, 3]
   # '1-10/2' -> [1, 3, 5, 7, 9]
   # '2{10-20/2}' -> [210, 212, 214, 216, 218, 220]
-  class Resolver2
+  class Resolver
     def initialize(original = nil)
-      # puts '-> TheFox::Range::Resolver2.initialize'
+      # puts '-> TheFox::Range::Resolver.initialize'
       @original = original.to_s
     end
 
     def to_a
-      # puts '-> TheFox::Range::Resolver2.to_a'
+      # puts '-> TheFox::Range::Resolver.to_a'
 
-      lexer = Lexer2::Lexer.new(@original.to_s.split(''))
+      lexer = Lexer::Lexer.new(@original.to_s.split(''))
       lexer.resolve.flatten
     end
   end # Resolver

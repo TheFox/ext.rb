@@ -1,9 +1,7 @@
 
-require 'pp'
-
 module TheFox
 module Range
-module Lexer2
+module Lexer
   class Lexer
     def initialize(chars)
       # puts '-> Lexer2.initialize'

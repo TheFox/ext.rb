@@ -1,9 +1,7 @@
 
-require 'pp'
-
 module TheFox
 module Range
-module Lexer2
+module Lexer
   # 0123456789
   class Number < Base
     def initialize(char)

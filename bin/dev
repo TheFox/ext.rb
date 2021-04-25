@@ -3,5 +3,5 @@
 require 'thefox-ext'
 require 'pp'
 
-rr = TheFox::Range::Resolver2.new(ARGV.join(' '))
+rr = TheFox::Range::Resolver.new(ARGV.join(' '))
 pp rr.to_a

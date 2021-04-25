@@ -4,7 +4,7 @@ require 'pry'
 require 'thefox-ext'
 require 'pp'
 
-include TheFox::Range::Lexer2
+include TheFox::Range::Lexer
 
 n1 = Number.new('123')
 

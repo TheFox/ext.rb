@@ -1,7 +1,7 @@
 
 module TheFox
 module Range
-module Lexer2
+module Lexer
   # +
   class Operator < Base
     def initialize()
